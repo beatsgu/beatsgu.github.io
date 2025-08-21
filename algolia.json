@@ -1,0 +1,31 @@
+[
+  {
+    "objectID": "0b7c0f017d15c5b41ce2b823431843577c58cef3",
+    "permalink": "/post/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/",
+    "title": "Java并发编程","content": " Java并发编程 进程 程序是静态的，进程可以看作是程序的一个实例。\n二者对比 进程是相互独立的，线程存在于进程内，是进程的一个子集 进程拥有共享的资源，如内存空间，供其内部的线程共享。 进程间通信较为复杂 同一台计算机的进程通信称为 IPC 不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，例如HTTP 线程通信相对简单，因为它们共享进程内的内存。 线程更轻量，线程上下文切换成本一般上要比进程上下文切换低。 ​\t单核 cpu 下，多线程不能实际提高程序运行效率，只是为了能够在不同的任务之间切换，不同线程轮流使用 cpu ，不至于一个线程总占用 cpu，别的线程没法干活 ​ 多核 cpu 可以并行跑多个线程，但能否提高程序运行效率还是要分情况的 有些任务，经过精心设计，将任务拆分，并行执行，当然可以提高程序的运行效率。但不是所有计算任 务都能拆分（参考后文的【阿姆达尔定律】） 也不是所有任务都需要拆分，任务的目的如果不同，谈拆分和效率没啥意义 ​ IO 操作不占用 cpu，只是我们一般拷贝文件使用的是【阻塞 IO】，这时相当于线程虽然不用 cpu，但需要一 直等待 IO 结束，没能充分利用线程。所以才有后面的【非阻塞 IO】和【异步 IO】优化 创建和运行线程 方法一 直接使用Thread Thread t = new Thread() { @Override public void run() { // 要执行的任务 } } // 启动线程 t.start() 方法二 使用Runnable配合Thread 把线程和任务分开\nThread代表线程 Runnable代表可运行的任务（线程要执行的代码） Runnable runnable = new Runnable() { public void run(){ // 要执行的任务 } }; // 创建线程对象 Thread t = new Thread( runnable ); // 启动线程 t.start(); Java8 之后可以使用lambda精简代码\n// 创建任务对象 Runnable task2 = () -\u0026amp;gt; log.debug(\u0026amp;#34;hello\u0026amp;#34;); // 参数1 是任务对象; 参数2 是线程名字，推荐 Thread t2 = new Thread(task2, …","date": "2025-08-20 11:00:00",
+    "updated": "2025-08-21 11:00:00"
+  }, 
+  {
+    "objectID": "5f98474743e52347613b2e0c682fa859935c78fa",
+    "permalink": "/post/hello/",
+    "title": "Hello World","content": "天下无敌，天上来敌\n","date": "2023-03-15 11:00:00",
+    "updated": "2023-03-15 11:00:00"
+  }, 
+  {
+    "objectID": "712c2bc9e13ff43d5d2d5f0c370c4876ac495e3e",
+    "permalink": "/post/markdown%E4%BD%BF%E7%94%A8%E8%AE%B2%E8%A7%A3/",
+    "title": "Markdown使用讲解","content": " Markdown使用讲解 Markdown语法速查表\nMarkdown基本语法\nMarkdown扩展语法\nCSDN文章链接\n1.标题 Markdown支持6级标题，使用#符号表示：\n# 一级标题（#） ## 二级标题（##） ### 三级标题（###） #### 四级标题（####） ##### 五级标题（#####） ###### 六级标题（######） 2.引用 使用\u0026amp;gt;表示引用：\n这是一段引用\n这是嵌套引用\n\u0026amp;gt; 这是一段引用 \u0026amp;gt; \u0026amp;gt; \u0026amp;gt; 这是嵌套引用 3.列表 有序列表 使用数字加点号：\n打开冰箱 把大象放进去 关上冰箱 1. 打开冰箱 2. 把大象放进去 3. 关上冰箱 无序列表 可以使用*、-或+：\n使用星号（*）\n第二项\n使用短横线（-）\n第二项\n使用加号（+）\n第二项\n任务列表 已完成的任务 未完成的任务 另一个未完成的任务 - [x] 已完成的任务 - [ ] 未完成的任务 - [ ] 另一个未完成的任务 注意：要一整行打完要回车才能正确显示 4.代码 行内代码 使用反引号包围：console.log(\u0026amp;quot;Hello World\u0026amp;quot;)\n`console.log(\u0026amp;#34;Hello World\u0026amp;#34;)` 代码块 使用三个反引号，可指定语言：\npublic class HelloWorld { public static void main(String[] args) { System.out.println(\u0026amp;#34;Hello, World!\u0026amp;#34;); } } ```java public class HelloWorld { public static void main(String[] args) { System.out.println(\u0026amp;#34;Hello, World!\u0026amp;#34;); } } ``` 5.数学公式 块级公式 使用双美元符号： $$ \\frac{\\partial f}{\\partial x} = 2\\sqrt{a}x $$\n块级： $$ \\frac{\\partial f}{\\partial x} = 2\\sqrt{a}x $$ 6.表格 姓名 年龄 成绩 备注 张三 18 95 优秀 李四 19 87 良好 王五 20 92 …","date": "2023-03-15 11:00:00",
+    "updated": "2023-03-15 11:00:00"
+  }, 
+  {
+    "objectID": "1e3c889474cea06401b04d7a816de10f87e0dba2",
+    "permalink": "/post/nice/",
+    "title": "nice","content": "💘 迪迦奥特曼 💘\n","date": "2023-03-15 11:00:00",
+    "updated": "2023-03-15 11:00:00"
+  }, 
+  {
+    "objectID": "232a73ff281e23ec8df6107a78630dc3eae9c60f",
+    "permalink": "/post/%E6%97%A0%E6%95%8C/",
+    "title": "无敌","content": "💘 迪迦奥特曼 💘\n","date": "2023-03-15 11:00:00",
+    "updated": "2023-03-15 11:00:00"
+  }]

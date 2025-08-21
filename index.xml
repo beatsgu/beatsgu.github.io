@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>欢迎来到 Beats_Gu 站点</title>
+    <link>https://beatsgu.github.io/algolia.json</link>
+    <description>Recent content from 欢迎来到 Beats_Gu 站点</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    
+    <managingEditor>2980419362@qq.com (Beats_Gu)</managingEditor>
+    <webMaster>2980419362@qq.com (Beats_Gu)</webMaster>
+    
+    <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
+    
+    <lastBuildDate>Thu, 21 Aug 2025 11:00:00 -0700</lastBuildDate>
+    
+    
+    <atom:link href="https://beatsgu.github.io/index.xml" rel="self" type="application/rss&#43;xml" />
+    
+
+    
+      
+    
+
+    <item>
+      <title>Java并发编程</title>
+      <link>https://beatsgu.github.io/post/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Wed, 20 Aug 2025 11:00:00 -0700</pubDate>
+      <author>2980419362@qq.com (Beats_Gu)</author>
+      <guid>https://beatsgu.github.io/post/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</guid>
+      <description>
+        <![CDATA[<h1>Java并发编程</h1><p>作者：Beats_Gu（2980419362@qq.com）</p>
+        
+          <h1 id="java并发编程">
+<a class="header-anchor" href="#java%e5%b9%b6%e5%8f%91%e7%bc%96%e7%a8%8b"></a>
+<strong>Java并发编程</strong>
+</h1><!-- raw HTML omitted -->
+<h2 id="进程">
+<a class="header-anchor" href="#%e8%bf%9b%e7%a8%8b"></a>
+进程
+</h2><p>程序是静态的，进程可以看作是程序的一个实例。</p>
+<p><img src="#ZgotmplZ" alt="image-20250409095951300"></p>
+<h2 id="二者对比">
+<a class="header-anchor" href="#%e4%ba%8c%e8%80%85%e5%af%b9%e6%af%94"></a>
+二者对比
+</h2><ul>
+<li>进程是相互独立的，线程存在于进程内，是进程的一个子集</li>
+<li>进程拥有共享的资源，如内存空间，供其内部的线程共享。</li>
+<li>进程间通信较为复杂
+<ul>
+<li>同一台计算机的进程通信称为 IPC</li>
+<li>不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，例如HTTP</li>
+</ul>
+</li>
+<li>线程通信相对简单，因为它们共享进程内的内存。</li>
+<li>线程更轻量，线程上下文切换成本一般上要比进程上下文切换低。</li>
+</ul>
+<p><img src="#ZgotmplZ" alt="image-20250409100848702"></p>
+        
+        <hr><p>本文2025-08-20首发于<a href='https://beatsgu.github.io/'>欢迎来到 Beats_Gu 站点</a>，最后修改于2025-08-21</p><p>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</p>]]>
+      </description>
+      
+    </item>
+    
+  </channel>
+</rss>

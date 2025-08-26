@@ -1,0 +1,1204 @@
+<!doctype html>
+<html
+  lang="zh-cn" 
+  data-theme-mode="auto"
+  >
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/><title>
+  JavaScript基础知识点（一）：数据类型与内存管理 | Beats_Gu
+</title>
+<meta
+  name="description"
+  content="少年须知凌云志..."
+/><script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"http://localhost:1313/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":false,\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+<link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/regular.min.css"
+    integrity="sha384-k5640LgghgAohDLPwSqVWa96yQwWouT6wsAL&#43;J1g0CFJVITNKYkIh1XpPLYKQe7Y" crossorigin="anonymous"/><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/solid.min.css"
+    integrity="sha384-8yO/A/BtltnG0hDxdwmmkza8UAleyDoAD1FhXiH6rsOQQsCho1P6WZP9TpBBH3YP" crossorigin="anonymous"/><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/brands.min.css"
+    integrity="sha384-/BRyRRN0wxxRgh/DAXU621go9pdoMHl6LFPiX5Pp8PZYZlKBQCDXj9X9DHx6LOud" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v5-font-face.min.css"
+    integrity="sha384-/mBKnLlGtog8q2qQrgugURRDV&#43;iHWHAPvM5KulYXT1C2ErKOKkBI0vbff8ZPq7rL" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v4-font-face.min.css"
+    integrity="sha384-d2Yn1/9Iw78r3oqwk5B&#43;EcpRcmepXR5LyhmRF2a&#43;WoSe9mpRGvVk0ZviFwDGDOTO" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link rel="stylesheet" href="/css/loader.css" />
+<meta property="og:type" content="website" />
+  <meta property="og:title" content="JavaScript基础知识点（一）：数据类型与内存管理 | Beats_Gu" />
+  <meta
+    property="og:description"
+    content="少年须知凌云志..."
+  />
+  <meta property="og:url" content="http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" />
+  <meta
+    property="og:site_name"
+    content="欢迎来到 Beats_Gu 站点"
+  />
+  <meta
+    property="og:image"
+    content="/"
+  />
+  <meta property="article:author" content="Beats_Gu" />
+  <meta property="article:published_time" content="2025-08-26T11:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2025-08-26T11:00:00&#43;08:00" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" />
+<link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei&#43;Zx/1oA/0l8ysE" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.22/dist/katex.min.css"
+    integrity="sha384-5TcZemv2l/9On385z///&#43;d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"
+    integrity="sha384-4NN3fZ5AokFyHuoihl7A9qWaCt&#43;HsAtOaUsXwJGRb4/SMBtFr2vcNSHR5E8dg0Wk" crossorigin="anonymous"/></head>
+  <body><div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg></div><div class="loading-word">貂蝉正在骑马来的路上...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script><div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+本文章没有找到对应的语言版本
+</div>
+<div id="heatmap-tooltip"></div><div id="container">
+      <div id="wrap"><div id="header-nav">
+  <nav id="main-nav"><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span><a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture><source media="(max-width: 479px)" srcset="/images/banner-600w.webp"><source media="(max-width: 799px)" srcset="/images/banner-800w.webp"><source media="(min-width: 800px)" srcset="/images/banner.webp"><img  fetchpriority="high" src="/images/banner.webp" alt="JavaScript基础知识点（一）：数据类型与内存管理"></picture><img alt="JavaScript基础知识点（一）：数据类型与内存管理" style="visibility: hidden;"><div id="header-outer">
+    <div id="header-title"><a href="/" id="logo">
+            <h1 data-aos="slide-up">JavaScript基础知识点（一）：数据类型与内存管理</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
+  </div>
+</header><div id="content"
+          class="sidebar-left"
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-数据类型的内存存储机制">2. 数据类型的内存存储机制</a>
+      <ul>
+        <li><a href="#21-原始类型值存储">2.1 原始类型：值存储</a></li>
+        <li><a href="#22-对象类型引用存储">2.2 对象类型：引用存储</a></li>
+        <li><a href="#23-内存模型详解">2.3 内存模型详解</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-经典案例函数参数传递">3. 经典案例：函数参数传递</a>
+      <ul>
+        <li><a href="#31-执行过程分析">3.1 执行过程分析</a></li>
+        <li><a href="#32-对象比较规则">3.2 对象比较规则</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-类型判断方法详解">4. 类型判断方法详解</a>
+      <ul>
+        <li><a href="#41-typeof-的能力与局限">4.1 typeof 的能力与局限</a></li>
+        <li><a href="#42-instanceof-原理与应用">4.2 instanceof 原理与应用</a></li>
+        <li><a href="#43-最精确的类型判断">4.3 最精确的类型判断</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-string-vs-string原始类型与对象的区别">5. string vs String：原始类型与对象的区别</a>
+      <ul>
+        <li><a href="#51-string原始类型">5.1 string（原始类型）</a></li>
+        <li><a href="#52-string构造函数对象">5.2 String（构造函数/对象）</a></li>
+        <li><a href="#53-三个关键区别">5.3 三个关键区别</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-小结">6. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">5</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
+  </div>
+
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-08-26 11:00:00 &#43;0800 CST" itemprop="datePublished"
+      >2025-08-26</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-08-26</time
+    >
+  </span>
+</div>
+<div class="article-category"></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h1 id="javascript基础知识点一数据类型与内存管理">
+<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%80%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86"></a>
+JavaScript基础知识点（一）：数据类型与内存管理
+</h1><h2 id="1-前言">
+<a class="header-anchor" href="#1-%e5%89%8d%e8%a8%80"></a>
+1. 前言
+</h2><p>理解 JavaScript 中的数据类型和内存管理是掌握这门语言的基础。本文将深入探讨原始类型与对象类型的区别，以及它们在内存中的不同存储方式。</p>
+<p><a href="https://blog.csdn.net/wtyv3164/article/details/150869567?fromshare=blogdetail&amp;sharetype=blogdetail&amp;sharerId=150869567&amp;sharerefer=PC&amp;sharesource=wtyv3164&amp;sharefrom=from_link">CSDN文章链接</a></p>
+<h2 id="2-数据类型的内存存储机制">
+<a class="header-anchor" href="#2-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%86%85%e5%ad%98%e5%ad%98%e5%82%a8%e6%9c%ba%e5%88%b6"></a>
+2. 数据类型的内存存储机制
+</h2><p>在 JavaScript 中，数据类型分为两大类：<strong>原始类型</strong>和<strong>对象类型</strong>，它们有着截然不同的存储和访问方式。</p>
+<h3 id="21-原始类型值存储">
+<a class="header-anchor" href="#21-%e5%8e%9f%e5%a7%8b%e7%b1%bb%e5%9e%8b%e5%80%bc%e5%ad%98%e5%82%a8"></a>
+2.1 原始类型：值存储
+</h3><p>原始类型包括：<code>number</code>、<code>string</code>、<code>boolean</code>、<code>undefined</code>、<code>null</code>、<code>symbol</code>、<code>bigint</code></p>
+<p><strong>特点：存储的是实际的值，直接保存在栈内存中。</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">;</span>  <span class="c1">// b 得到的是 a 的值的副本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">b</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 10 (a 不会被影响)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 20
+</span></span></span></code></pre></div><h3 id="22-对象类型引用存储">
+<a class="header-anchor" href="#22-%e5%af%b9%e8%b1%a1%e7%b1%bb%e5%9e%8b%e5%bc%95%e7%94%a8%e5%ad%98%e5%82%a8"></a>
+2.2 对象类型：引用存储
+</h3><p>对象类型包括：<code>Object</code>、<code>Array</code>、<code>Function</code>、<code>Date</code>、<code>RegExp</code> 等</p>
+<p><strong>特点：实际的值存储在堆内存中，变量中保存的是指向该堆内存地址的指针（引用）。</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="nx">obj1</span><span class="p">;</span>  <span class="c1">// obj2 得到的是 obj1 的引用（指针）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">obj2</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">&#34;李四&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj1</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#34;李四&#34; (obj1 也被修改了)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#34;李四&#34;
+</span></span></span></code></pre></div><h3 id="23-内存模型详解">
+<a class="header-anchor" href="#23-%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b%e8%af%a6%e8%a7%a3"></a>
+2.3 内存模型详解
+</h3><p>对于上面的例子，内存分配如下：</p>
+<ul>
+<li>变量 <code>obj1</code> 存储了内存地址 <code>#001</code></li>
+<li>在地址 <code>#001</code> 的位置存放了值 <code>{ name: &quot;张三&quot; }</code></li>
+<li>当执行 <code>obj2 = obj1</code> 时，复制的是地址 <code>#001</code></li>
+<li>两个变量都指向同一块内存空间，修改任一变量都会影响另一个</li>
+</ul>
+<h2 id="3-经典案例函数参数传递">
+<a class="header-anchor" href="#3-%e7%bb%8f%e5%85%b8%e6%a1%88%e4%be%8b%e5%87%bd%e6%95%b0%e5%8f%82%e6%95%b0%e4%bc%a0%e9%80%92"></a>
+3. 经典案例：函数参数传递
+</h2><p>让我们通过一个经典案例来加深理解：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">test</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">person</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>  <span class="c1">// 修改对象属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>        <span class="c1">// 重新赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;yyy&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span><span class="o">:</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">person</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p1</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;yck&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">age</span><span class="o">:</span> <span class="mi">25</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p2</span> <span class="o">=</span> <span class="nx">test</span><span class="p">(</span><span class="nx">p1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p1</span><span class="p">);</span> <span class="c1">// ?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p2</span><span class="p">);</span> <span class="c1">// ?
+</span></span></span></code></pre></div><p>你认为以上代码打印的结果会是什么？</p>
+<p>结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 运行结果：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p1</span><span class="p">);</span> <span class="c1">// { name: &#39;yck&#39;, age: 26 }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p2</span><span class="p">);</span> <span class="c1">// { name: &#39;yyy&#39;, age: 30 }
+</span></span></span></code></pre></div><h3 id="31-执行过程分析">
+<a class="header-anchor" href="#31-%e6%89%a7%e8%a1%8c%e8%bf%87%e7%a8%8b%e5%88%86%e6%9e%90"></a>
+3.1 执行过程分析
+</h3><ol>
+<li>
+<p><strong>初始状态</strong>：<code>p1</code> 指向堆内存中的对象 A：<code>{ name: 'yck', age: 25 }</code></p>
+</li>
+<li>
+<p><strong>函数调用 <code>test(p1)</code></strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">test</span><span class="p">(</span><span class="nx">person</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 此时 person 参数得到 p1 的引用副本，都指向对象 A
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nx">person</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">26</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 通过 person 修改对象 A，p1 也会受影响
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 对象 A 变为 { name: &#39;yck&#39;, age: 26 }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;yyy&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span><span class="o">:</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 重新赋值！person 现在指向新的对象 B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 但 p1 仍然指向对象 A
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">person</span>  <span class="c1">// 返回指向对象 B 的引用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>关键概念</strong>：<strong>重新赋值 ≠ 修改对象</strong></p>
+</li>
+<li>
+<p>就是在 test方法中<code>person = { name: 'yyy', age: 30 }</code> 这一行的关键， 那就是<strong>赋值操作的本质：重新赋值 ≠ 修改对象</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 之前的操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">person</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">26</span>    <span class="c1">// 这是修改对象的属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 关键的这一行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>         <span class="c1">// 这是重新赋值，改变引用指向
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;yyy&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">age</span><span class="o">:</span> <span class="mi">30</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>重新赋值只是让变量指向新的内存地址，原来的对象依然存在，其他指向它的变量不受任何影响！</strong></p>
+</li>
+</ol>
+<h3 id="32-对象比较规则">
+<a class="header-anchor" href="#32-%e5%af%b9%e8%b1%a1%e6%af%94%e8%be%83%e8%a7%84%e5%88%99"></a>
+3.2 对象比较规则
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 原始类型比较值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>        <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;a&#34;</span> <span class="o">===</span> <span class="s2">&#34;a&#34;</span><span class="p">);</span>    <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 对象类型比较引用地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">({}</span> <span class="o">===</span> <span class="p">{});</span>      <span class="c1">// false (不同的内存空间)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">([]</span> <span class="o">===</span> <span class="p">[]);</span>      <span class="c1">// false (不同的内存空间)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">ref</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span> <span class="o">===</span> <span class="nx">ref</span><span class="p">);</span>    <span class="c1">// true (相同引用)
+</span></span></span></code></pre></div><h2 id="4-类型判断方法详解">
+<a class="header-anchor" href="#4-%e7%b1%bb%e5%9e%8b%e5%88%a4%e6%96%ad%e6%96%b9%e6%b3%95%e8%af%a6%e8%a7%a3"></a>
+4. 类型判断方法详解
+</h2><h3 id="41-typeof-的能力与局限">
+<a class="header-anchor" href="#41-typeof-%e7%9a%84%e8%83%bd%e5%8a%9b%e4%b8%8e%e5%b1%80%e9%99%90"></a>
+4.1 typeof 的能力与局限
+</h3><p><code>typeof</code> 对于原始类型基本准确，但对象类型有限制：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 原始类型判断 - 基本准确
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="mi">1</span><span class="p">;</span>              <span class="c1">// &#34;number&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>        <span class="c1">// &#34;string&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="kc">true</span><span class="p">;</span>           <span class="c1">// &#34;boolean&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="kc">undefined</span><span class="p">;</span>      <span class="c1">// &#34;undefined&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="nx">Symbol</span><span class="p">();</span>       <span class="c1">// &#34;symbol&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="mi">10</span><span class="nx">n</span><span class="p">;</span>            <span class="c1">// &#34;bigint&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 特殊情况
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="kc">null</span><span class="p">;</span>           <span class="c1">// &#34;object&#34; (历史遗留bug)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 对象类型判断 - 有限制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="p">[];</span>             <span class="c1">// &#34;object&#34; (无法区分数组)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="p">{};</span>             <span class="c1">// &#34;object&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>     <span class="c1">// &#34;object&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="sr">/regex/</span><span class="p">;</span>        <span class="c1">// &#34;object&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typeof</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span> <span class="c1">// &#34;function&#34; (函数是特例)
+</span></span></span></code></pre></div><p><strong>typeof null 的历史问题</strong></p>
+<p>​           对于 <code>null</code> 来说，很多人会认为他是个对象类型，其实这是错误的。虽然 <code>typeof null</code> 会输出 <code>object</code>，但是这只是 JS 存在的一个悠久 Bug。在 JS 的最初版本中使用的是 32 位系统，为了性能考虑使用低位存储变量的类型信息，<code>000</code> 开头代表是对象，然而 <code>null</code> 表示为全零，所以将它错误的判断为 <code>object</code> 。虽然现在的内部类型判断代码已经改变了，但是对于这个 Bug 却是一直流传下来。</p>
+<h3 id="42-instanceof-原理与应用">
+<a class="header-anchor" href="#42-instanceof-%e5%8e%9f%e7%90%86%e4%b8%8e%e5%ba%94%e7%94%a8"></a>
+4.2 instanceof 原理与应用
+</h3><p><code>instanceof</code> 通过检查原型链来判断对象类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 基本用法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">);</span>   <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span> <span class="k">instanceof</span> <span class="nb">Object</span><span class="p">);</span>  <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p1</span> <span class="k">instanceof</span> <span class="nx">Person</span><span class="p">);</span>   <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 注意区别
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;hello world&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span>  <span class="c1">// false (原始字符串)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">strObj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;hello world&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">strObj</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span> <span class="c1">// true (String 对象)
+</span></span></span></code></pre></div><p><strong>原型链查找过程</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s2">&#34;张三&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// p instanceof Person 的查找过程：
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1. 获取 p 的原型链：p.__proto__ -&gt; Person.prototype -&gt; Object.prototype -&gt; null
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 2. 检查 Person.prototype 是否在这个链上
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 3. 返回 true
+</span></span></span></code></pre></div><h3 id="43-最精确的类型判断">
+<a class="header-anchor" href="#43-%e6%9c%80%e7%b2%be%e7%a1%ae%e7%9a%84%e7%b1%bb%e5%9e%8b%e5%88%a4%e6%96%ad"></a>
+4.3 最精确的类型判断
+</h3><p>使用 <code>Object.prototype.toString</code> 获取精确类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getType</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">([]));</span>        <span class="c1">// &#34;array&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">({}));</span>        <span class="c1">// &#34;object&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">(</span><span class="kc">null</span><span class="p">));</span>      <span class="c1">// &#34;null&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()));</span> <span class="c1">// &#34;date&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">(</span><span class="sr">/regex/</span><span class="p">));</span>   <span class="c1">// &#34;regexp&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">getType</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{}));</span> <span class="c1">// &#34;function&#34;
+</span></span></span></code></pre></div><p><strong>类型判断方法总结</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>适用场景</th>
+          <th>优点</th>
+          <th>缺点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>typeof</code></td>
+          <td>原始类型判断</td>
+          <td>简单快速</td>
+          <td>对象类型判断有限，<code>null</code> 判断错误</td>
+      </tr>
+      <tr>
+          <td><code>instanceof</code></td>
+          <td>对象类型判断</td>
+          <td>能判断具体对象类型</td>
+          <td>无法判断原始类型，跨框架可能失效</td>
+      </tr>
+      <tr>
+          <td><code>Object.prototype.toString</code></td>
+          <td>精确类型判断</td>
+          <td>最准确，支持所有类型</td>
+          <td>语法相对复杂</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="5-string-vs-string原始类型与对象的区别">
+<a class="header-anchor" href="#5-string-vs-string%e5%8e%9f%e5%a7%8b%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%af%b9%e8%b1%a1%e7%9a%84%e5%8c%ba%e5%88%ab"></a>
+5. string vs String：原始类型与对象的区别
+</h2><p>这是一个经常被忽视但很重要的概念：</p>
+<h3 id="51-string原始类型">
+<a class="header-anchor" href="#51-string%e5%8e%9f%e5%a7%8b%e7%b1%bb%e5%9e%8b"></a>
+5.1 string（原始类型）
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 创建原始字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">str1</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>           <span class="c1">// 字面量方式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">str2</span> <span class="o">=</span> <span class="s1">&#39;world&#39;</span><span class="p">;</span>           <span class="c1">// 字面量方式  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">str3</span> <span class="o">=</span> <span class="sb">`template`</span><span class="p">;</span>        <span class="c1">// 模板字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">str1</span><span class="p">);</span>               <span class="c1">// &#34;string&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str1</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span>   <span class="c1">// false
+</span></span></span></code></pre></div><h3 id="52-string构造函数对象">
+<a class="header-anchor" href="#52-string%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%af%b9%e8%b1%a1"></a>
+5.2 String（构造函数/对象）
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 创建 String 对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">strObj1</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">);</span>  <span class="c1">// 对象方式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">strObj2</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;world&#34;</span><span class="p">);</span>      <span class="c1">// 函数调用方式（返回原始字符串）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">strObj1</span><span class="p">);</span>              <span class="c1">// &#34;object&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">strObj1</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span>  <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">strObj2</span><span class="p">);</span>              <span class="c1">// &#34;string&#34;
+</span></span></span></code></pre></div><h3 id="53-三个关键区别">
+<a class="header-anchor" href="#53-%e4%b8%89%e4%b8%aa%e5%85%b3%e9%94%ae%e5%8c%ba%e5%88%ab"></a>
+5.3 三个关键区别
+</h3><h4 id="531-存储方式">
+<a class="header-anchor" href="#531-%e5%ad%98%e5%82%a8%e6%96%b9%e5%bc%8f"></a>
+5.3.1 存储方式
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">primitive</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>           <span class="c1">// 存储在栈中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">objectStr</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">);</span> <span class="c1">// 引用在栈中，值在堆中
+</span></span></span></code></pre></div><h4 id="532-比较行为">
+<a class="header-anchor" href="#532-%e6%af%94%e8%be%83%e8%a1%8c%e4%b8%ba"></a>
+5.3.2 比较行为
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">str1</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">str2</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">strObj1</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">strObj2</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str1</span> <span class="o">===</span> <span class="nx">str2</span><span class="p">);</span>     <span class="c1">// true (值比较)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">strObj1</span> <span class="o">===</span> <span class="nx">strObj2</span><span class="p">);</span> <span class="c1">// false (引用比较)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str1</span> <span class="o">===</span> <span class="nx">strObj1</span><span class="p">);</span>   <span class="c1">// false (类型不同)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">str1</span> <span class="o">==</span> <span class="nx">strObj1</span><span class="p">);</span>    <span class="c1">// true (类型转换后比较)
+</span></span></span></code></pre></div><h4 id="533-性能差异">
+<a class="header-anchor" href="#533-%e6%80%a7%e8%83%bd%e5%b7%ae%e5%bc%82"></a>
+5.3.3 性能差异
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">//推荐：原始字符串 - 性能更好
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">primitive</span> <span class="o">=</span> <span class="s2">&#34;hello&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//不推荐：String 对象 - 性能较差
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">objectStr</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>实践建议</strong></p>
+<ol>
+<li><strong>优先使用原始类型</strong>：<code>&quot;hello&quot;</code> 而不是 <code>new String(&quot;hello&quot;)</code></li>
+<li><strong>理解引用传递</strong>：修改对象参数会影响原始对象</li>
+<li><strong>选择合适的类型判断方法：</strong>
+<ul>
+<li>基础类型用 <code>typeof</code></li>
+<li>对象类型用 <code>instanceof</code></li>
+<li>需要精确判断用 <code>Object.prototype.toString</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="6-小结">
+<a class="header-anchor" href="#6-%e5%b0%8f%e7%bb%93"></a>
+6. 小结
+</h2><p>本文介绍了 JavaScript 中数据类型的核心概念：原始类型与对象类型的内存存储差异、函数参数传递机制、以及各种类型判断方法的适用场景。</p>
+</div>
+    <footer class="article-footer"><a
+          data-aos="zoom-in"
+          href="/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/#comments"
+          class="article-comment-link"
+        >
+          <span
+            class="post-comments-count valine-comment-count"
+            data-xid="http//localhost1313/post/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%80%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86/"
+            itemprop="commentCount"
+          ></span>
+          留言
+        </a><ul class="article-tag-list" itemprop="keywords"></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt="Android Compose UI设计实现指南：样式设置最佳实践"
+              class="lazyload"
+            /><a href="/post/android-compose-ui%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%8C%87%E5%8D%97%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">Android Compose UI设计实现指南：样式设置最佳实践</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="valine">
+          <span>valine</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment valine-comment" data-aos="fade-up"
+     >
+    </div></div>
+</section></section>
+        </div><footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info"><div>
+      <span class="icon-copyright"></span>2024-2025<span class="footer-info-sep rotate"></span>
+      Beats_Gu
+    </div><div>
+        <span class="icon-brush"
+          >&nbsp;40.7k</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;01:24</span>
+      </div><div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div></div>
+</footer>
+<div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div><div id="mask" class="hide"></div>
+      </div><nav id="mobile-nav">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-数据类型的内存存储机制">2. 数据类型的内存存储机制</a>
+      <ul>
+        <li><a href="#21-原始类型值存储">2.1 原始类型：值存储</a></li>
+        <li><a href="#22-对象类型引用存储">2.2 对象类型：引用存储</a></li>
+        <li><a href="#23-内存模型详解">2.3 内存模型详解</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-经典案例函数参数传递">3. 经典案例：函数参数传递</a>
+      <ul>
+        <li><a href="#31-执行过程分析">3.1 执行过程分析</a></li>
+        <li><a href="#32-对象比较规则">3.2 对象比较规则</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-类型判断方法详解">4. 类型判断方法详解</a>
+      <ul>
+        <li><a href="#41-typeof-的能力与局限">4.1 typeof 的能力与局限</a></li>
+        <li><a href="#42-instanceof-原理与应用">4.2 instanceof 原理与应用</a></li>
+        <li><a href="#43-最精确的类型判断">4.3 最精确的类型判断</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-string-vs-string原始类型与对象的区别">5. string vs String：原始类型与对象的区别</a>
+      <ul>
+        <li><a href="#51-string原始类型">5.1 string（原始类型）</a></li>
+        <li><a href="#52-string构造函数对象">5.2 String（构造函数/对象）</a></li>
+        <li><a href="#53-三个关键区别">5.3 三个关键区别</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-小结">6. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">5</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
+</div><div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div><script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script src="/js/main.js" ></script><script src="/js/aos.js" ></script><script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script><script src="/js/pjax_main.js" data-pjax></script><script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "PBK297AOMW",
+        apiKey: "d5d1fc0397aa43d7f922d5ca2330a187",
+        indexName: "",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": '搜索.....',
+          "hits_empty": '未发现与 「${query}」相关内容',
+          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
+        }
+      }
+    };
+  </script><script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/@reimujs/instantsearch.js@4.57.0-beta.1/dist/instantsearch.production.min.js"
+    deferintegrity="sha384-aagKMe8nkqaP2DYQc8kkYOL5l&#43;M5Q2WH/Uhr4teOh0Ybp0RZj0kUSDm45qPikMjK" crossorigin="anonymous"></script><script src="/js/algolia_search.js" ></script><script>
+  function initLive2d() {
+    live2d.init('https:\/\/fastly.jsdelivr.net\/gh\/D-Sketon\/plugin-live2d\/', {themeTipsPath: ""});
+  }
+</script><script
+    src="https://fastly.jsdelivr.net/gh/D-Sketon/plugin-live2d/js/live2d-autoload.js"
+    asynconload="initLive2d()"></script><script
+    src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"
+    integrity="sha384-aD7FsuQkS1ohgFKY41fJfeA&#43;Wd/QRNnrOd9Bs58K3FzKdJJv8yPnYU8Tnp5z1agS" crossorigin="anonymous"></script><script data-pjax>
+    window.quicklink?.listen({
+      timeout:  3000 ,
+      priority:  true ,
+      ignores: JSON.parse("[]")
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div><script data-pjax>
+        window.REIMU_POST = {
+          author: "Beats_Gu",
+          title: "JavaScript基础知识点（一）：数据类型与内存管理",
+          url: "http:\/\/localhost:1313\/post\/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86\/",
+          description: " JavaScript基础知识点（一）：数据类型与内存管理 1. 前言 理解 JavaScript 中的数据类型和内存管理是掌握这门语言的基础。本文将深入探讨原始类型与对象类型的区别，以及它们在内存中的不同存储方式。\n",
+          cover: "http:\/\/localhost:1313\/images\/banner.webp",
+        };
+      </script><script src="/js/insert_highlight.js" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script><script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
+  var commentConfig = {
+    valine: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.valine-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
+          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
+        );
+        script.onload = () => {
+          const GUEST_INFO = ['nick', 'mail', 'link'];
+          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
+            return GUEST_INFO.indexOf(item) > -1
+          });
+          const recordIP = JSON.parse('true');
+          const highlight = JSON.parse('true');
+          const visitor = JSON.parse('false');
+          const serverURLs = undefined;
+
+          new Valine({
+            el: '.valine-comment',
+            appId: "pzdnUsDUISWmBffXX6co6q3R-gzGzoHsz",
+            appKey: "GKPZSi7oEGO1SoAE7EzNzfeV",
+            placeholder: "快来评论吧",
+            pageSize: '10',
+            avatar: 'mp',
+            lang: document.documentElement.lang || 'en',
+            recordIP: recordIP,
+            highlight: highlight,
+            visitor: visitor,
+            requiredFields: guest_info,
+            path: window.location.pathname,
+            serverURLs,
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    waline: {
+      enable: false,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
+        
+        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
+          
+          const module = await safeImport(walineCdn);
+          walineInit = module.init;
+        } else {
+          
+          const module = await safeImport(
+            walineCdn, 
+            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
+          );
+          walineInit = module.init;
+        }
+        
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: '',
+          lang: document.documentElement.lang || 'en',
+          locale: JSON.parse("{}"),
+          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
+          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
+          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
+          wordLimit:  0 ,
+          comment: true,
+          pageSize:  10 ,
+          dark: 'html[data-theme="dark"]',
+          pageview:  true ,
+        });
+      }
+    },
+    twikoo: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.twikoo-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
+          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
+        );
+        script.onload = () => {
+          twikoo.init({
+            envId: '',
+            el: '.twikoo-comment',
+            region: '',
+            lang: document.documentElement.lang || 'en',
+          });
+          twikoo.getCommentsCount({
+            envId: '',
+            region: '',
+            urls: [
+              'http\/\/localhost1313\/post\/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%80%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86\/'
+            ],
+            includeReply: false
+          }).then((res) => {
+            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    gitalk: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
+          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
+        );
+        script.onload = () => {
+          if ( false ) {
+            
+            const md5Script = loadScript(
+              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
+              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            
+            initGitalk();
+          }
+        };
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          let gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: JSON.parse("null"),
+            id: location.pathname,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          });
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    giscus: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+
+        const docLang = document.documentElement.lang || 'en';
+        const langBase = docLang.split('-')[0];
+        const supportedLangs = ['ar', 'be', 'bg', 'ca', 'cs', 'da', 'de', 'en', 
+        'eo', 'es', 'eu', 'fa', 'fr', 'gr', 'hbs', 'he', 'hu', 'id', 'it', 'ja', 
+        'kh', 'ko', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tr', 'uk', 'uz', 'vi', 'zh-CN', 'zh-HK', 'zh-TW'];
+        const giscusLang = supportedLangs.includes(docLang) ? docLang : supportedLangs.includes(langBase) ? langBase : 'en';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', '');
+        giscusScript.setAttribute('data-repo-id', '');
+        giscusScript.setAttribute('data-category', '');
+        giscusScript.setAttribute('data-category-id', '');
+        giscusScript.setAttribute('data-mapping', '0');
+        giscusScript.setAttribute('data-strict', '0');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
+        giscusScript.setAttribute('data-lang', giscusLang);
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        document.body.addEventListener('light-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
+        });
+        document.body.addEventListener('dark-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
+        });
+      }
+    }
+  };
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      
+      const commentType = item.getAttribute('data-selector');
+
+      
+      hideAllComments();
+
+      
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          
+          changeActiveCommentItems(item);
+        });
+      }
+
+      
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script></div>
+</div><script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script><script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script></body>
+</html>

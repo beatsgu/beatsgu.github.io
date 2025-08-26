@@ -12,7 +12,7 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Mon, 25 Aug 2025 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 26 Aug 2025 11:00:00 +0800</lastBuildDate>
     
     
     <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss&#43;xml" />
@@ -23,20 +23,23 @@
     
 
     <item>
-      <title>Android Compose UI设计实现指南：样式设置最佳实践</title>
-      <link>http://localhost:1313/post/android-compose-ui%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%8C%87%E5%8D%97%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
-      <pubDate>Sun, 24 Aug 2025 11:00:00 -0700</pubDate>
+      <title>JavaScript基础知识点（一）：数据类型与内存管理</title>
+      <link>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Tue, 26 Aug 2025 11:00:00 &#43;0800</pubDate>
       <author>2980419362@qq.com (Beats_Gu)</author>
-      <guid>http://localhost:1313/post/android-compose-ui%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%8C%87%E5%8D%97%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
+      <guid>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
       <description>
-        <![CDATA[<h1>Android Compose UI设计实现指南：样式设置最佳实践</h1><p>作者：Beats_Gu（2980419362@qq.com）</p>
+        <![CDATA[<h1>JavaScript基础知识点（一）：数据类型与内存管理</h1><p>作者：Beats_Gu（2980419362@qq.com）</p>
         
-          <h1 id="android-compose-ui设计实现指南样式设置最佳实践">
-<a class="header-anchor" href="#android-compose-ui%e8%ae%be%e8%ae%a1%e5%ae%9e%e7%8e%b0%e6%8c%87%e5%8d%97%e6%a0%b7%e5%bc%8f%e8%ae%be%e7%bd%ae%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5"></a>
-Android Compose UI设计实现指南：样式设置最佳实践
-</h1><p>在Android Jetpack Compose开发中，正确设置组件样式是实现精美UI的关键。本文将通过实际案例，分享各类组件的样式设置最佳实践和常见技巧。</p>
+          <h1 id="javascript基础知识点一数据类型与内存管理">
+<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%80%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86"></a>
+JavaScript基础知识点（一）：数据类型与内存管理
+</h1><h2 id="1-前言">
+<a class="header-anchor" href="#1-%e5%89%8d%e8%a8%80"></a>
+1. 前言
+</h2><p>理解 JavaScript 中的数据类型和内存管理是掌握这门语言的基础。本文将深入探讨原始类型与对象类型的区别，以及它们在内存中的不同存储方式。</p>
         
-        <hr><p>本文2025-08-24首发于<a href='http://localhost:1313/'>欢迎来到 Beats_Gu 站点</a>，最后修改于2025-08-25</p><p>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</p>]]>
+        <hr><p>本文2025-08-26首发于<a href='http://localhost:1313/'>欢迎来到 Beats_Gu 站点</a>，最后修改于2025-08-26</p><p>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</p>]]>
       </description>
       
     </item>

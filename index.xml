@@ -12,7 +12,7 @@
     
     <copyright>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</copyright>
     
-    <lastBuildDate>Tue, 26 Aug 2025 11:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 Aug 2025 14:00:00 +0800</lastBuildDate>
     
     
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss&#43;xml" />
@@ -23,23 +23,23 @@
     
 
     <item>
-      <title>JavaScript基础知识点（一）：数据类型与内存管理</title>
-      <link>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
-      <pubDate>Tue, 26 Aug 2025 11:00:00 &#43;0800</pubDate>
+      <title>JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解</title>
+      <link>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C/</link>
+      <pubDate>Wed, 27 Aug 2025 14:00:00 &#43;0800</pubDate>
       <author>2980419362@qq.com (Beats_Gu)</author>
-      <guid>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <guid>http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C/</guid>
       <description>
-        <![CDATA[<h1>JavaScript基础知识点（一）：数据类型与内存管理</h1><p>作者：Beats_Gu（2980419362@qq.com）</p>
+        <![CDATA[<h1>JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解</h1><p>作者：Beats_Gu（2980419362@qq.com）</p>
         
-          <h1 id="javascript基础知识点一数据类型与内存管理">
-<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%80%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e4%b8%8e%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86"></a>
-JavaScript基础知识点（一）：数据类型与内存管理
+          <h1 id="javascript基础知识点二nullundefined比较操作符与this讲解">
+<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%ba%8cnullundefined%e6%af%94%e8%be%83%e6%93%8d%e4%bd%9c%e7%ac%a6%e4%b8%8ethis%e8%ae%b2%e8%a7%a3"></a>
+JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解
 </h1><h2 id="1-前言">
 <a class="header-anchor" href="#1-%e5%89%8d%e8%a8%80"></a>
 1. 前言
-</h2><p>理解 JavaScript 中的数据类型和内存管理是掌握这门语言的基础。本文将深入探讨原始类型与对象类型的区别，以及它们在内存中的不同存储方式。</p>
+</h2><p>在 JavaScript 基础知识点（一）中，我们了解了原始类型和对象类型（也称为基本数据类型和引用数据类型）。本文将深入探讨其中最容易混淆的概念：null 与 undefined 的区别、比较操作符的差异，以及 JavaScript 中最复杂的 this 指向问题。</p>
         
-        <hr><p>本文2025-08-26首发于<a href='http://localhost:1313/'>欢迎来到 Beats_Gu 站点</a>，最后修改于2025-08-26</p><p>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</p>]]>
+        <hr><p>本文2025-08-27首发于<a href='http://localhost:1313/'>欢迎来到 Beats_Gu 站点</a>，最后修改于2025-08-27</p><p>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！</p>]]>
       </description>
       
     </item>

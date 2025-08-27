@@ -1,0 +1,1392 @@
+<!doctype html>
+<html
+  lang="zh-cn" 
+  data-theme-mode="auto"
+  >
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/><title>
+  JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解 | Beats_Gu
+</title>
+<meta
+  name="description"
+  content="少年须知凌云志..."
+/><script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"http://localhost:1313/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":false,\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+<link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/regular.min.css"
+    integrity="sha384-k5640LgghgAohDLPwSqVWa96yQwWouT6wsAL&#43;J1g0CFJVITNKYkIh1XpPLYKQe7Y" crossorigin="anonymous"/><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/solid.min.css"
+    integrity="sha384-8yO/A/BtltnG0hDxdwmmkza8UAleyDoAD1FhXiH6rsOQQsCho1P6WZP9TpBBH3YP" crossorigin="anonymous"/><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/brands.min.css"
+    integrity="sha384-/BRyRRN0wxxRgh/DAXU621go9pdoMHl6LFPiX5Pp8PZYZlKBQCDXj9X9DHx6LOud" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v5-font-face.min.css"
+    integrity="sha384-/mBKnLlGtog8q2qQrgugURRDV&#43;iHWHAPvM5KulYXT1C2ErKOKkBI0vbff8ZPq7rL" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v4-font-face.min.css"
+    integrity="sha384-d2Yn1/9Iw78r3oqwk5B&#43;EcpRcmepXR5LyhmRF2a&#43;WoSe9mpRGvVk0ZviFwDGDOTO" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link rel="stylesheet" href="/css/loader.css" />
+<meta property="og:type" content="website" />
+  <meta property="og:title" content="JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解 | Beats_Gu" />
+  <meta
+    property="og:description"
+    content="少年须知凌云志..."
+  />
+  <meta property="og:url" content="http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C/" />
+  <meta
+    property="og:site_name"
+    content="欢迎来到 Beats_Gu 站点"
+  />
+  <meta
+    property="og:image"
+    content="/"
+  />
+  <meta property="article:author" content="Beats_Gu" />
+  <meta property="article:published_time" content="2025-08-27T14:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2025-08-27T14:00:00&#43;08:00" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" />
+<link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei&#43;Zx/1oA/0l8ysE" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.22/dist/katex.min.css"
+    integrity="sha384-5TcZemv2l/9On385z///&#43;d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"
+    integrity="sha384-4NN3fZ5AokFyHuoihl7A9qWaCt&#43;HsAtOaUsXwJGRb4/SMBtFr2vcNSHR5E8dg0Wk" crossorigin="anonymous"/></head>
+  <body><div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg></div><div class="loading-word">貂蝉正在骑马来的路上...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script><div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+本文章没有找到对应的语言版本
+</div>
+<div id="heatmap-tooltip"></div><div id="container">
+      <div id="wrap"><div id="header-nav">
+  <nav id="main-nav"><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span><a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture><source media="(max-width: 479px)" srcset="/images/banner-600w.webp"><source media="(max-width: 799px)" srcset="/images/banner-800w.webp"><source media="(min-width: 800px)" srcset="/images/banner.webp"><img  fetchpriority="high" src="/images/banner.webp" alt="JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解"></picture><img alt="JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解" style="visibility: hidden;"><div id="header-outer">
+    <div id="header-title"><a href="/" id="logo">
+            <h1 data-aos="slide-up">JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
+  </div>
+</header><div id="content"
+          class="sidebar-left"
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-null-与-undefined-详解">2. null 与 undefined 详解</a>
+      <ul>
+        <li><a href="#21-undefined表示未定义">2.1 undefined：表示&quot;未定义&quot;</a></li>
+        <li><a href="#22-null表示空值">2.2 null：表示&quot;空值&quot;</a></li>
+        <li><a href="#23-基本对比">2.3 基本对比</a></li>
+        <li><a href="#24-产生-undefined-的常见场景">2.4 产生 undefined 的常见场景</a></li>
+        <li><a href="#25-null-的使用场景">2.5 null 的使用场景</a></li>
+        <li><a href="#26-语义上的区别">2.6 语义上的区别</a></li>
+        <li><a href="#27-常见陷阱">2.7 常见陷阱</a></li>
+        <li><a href="#28-对比总结">2.8 对比总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-比较操作符详解-与-objectis">3. 比较操作符详解：==、=== 与 Object.is()</a>
+      <ul>
+        <li><a href="#31-核心区别概述">3.1 核心区别概述</a></li>
+        <li><a href="#32-基本类型比较">3.2 基本类型比较</a></li>
+        <li><a href="#33-类型转换差异">3.3 类型转换差异</a></li>
+        <li><a href="#34-布尔值转换的特殊规则">3.4 布尔值转换的特殊规则</a></li>
+        <li><a href="#35-特殊值的处理差异">3.5 特殊值的处理差异</a></li>
+        <li><a href="#36-常见坑场景">3.6 常见&quot;坑&quot;场景</a></li>
+        <li><a href="#37-使用建议">3.7 使用建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-this-指向讲解">4. this 指向讲解</a>
+      <ul>
+        <li><a href="#41-对-this-对象的理解">4.1 对 this 对象的理解</a></li>
+        <li><a href="#42-场景讲解">4.2 场景讲解</a></li>
+        <li><a href="#43-箭头函数的-this">4.3 箭头函数的 this</a></li>
+        <li><a href="#44-实际应用场景">4.4 实际应用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-总结">5. 总结</a>
+      <ul>
+        <li><a href="#51-null-和-undefined">5.1 null 和 undefined</a></li>
+        <li><a href="#52-比较操作符">5.2 比较操作符</a></li>
+        <li><a href="#53-this-指向">5.3 this 指向</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-小结">6. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">6</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
+  </div>
+
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-08-27 14:00:00 &#43;0800 CST" itemprop="datePublished"
+      >2025-08-27</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-08-27</time
+    >
+  </span>
+</div>
+<div class="article-category"></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h1 id="javascript基础知识点二nullundefined比较操作符与this讲解">
+<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%ba%8cnullundefined%e6%af%94%e8%be%83%e6%93%8d%e4%bd%9c%e7%ac%a6%e4%b8%8ethis%e8%ae%b2%e8%a7%a3"></a>
+JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解
+</h1><h2 id="1-前言">
+<a class="header-anchor" href="#1-%e5%89%8d%e8%a8%80"></a>
+1. 前言
+</h2><p>在 JavaScript 基础知识点（一）中，我们了解了原始类型和对象类型（也称为基本数据类型和引用数据类型）。本文将深入探讨其中最容易混淆的概念：null 与 undefined 的区别、比较操作符的差异，以及 JavaScript 中最复杂的 this 指向问题。</p>
+<p><a href="https://blog.csdn.net/wtyv3164/article/details/150924342?fromshare=blogdetail&amp;sharetype=blogdetail&amp;sharerId=150924342&amp;sharerefer=PC&amp;sharesource=wtyv3164&amp;sharefrom=from_link">CSDN链接</a></p>
+<h2 id="2-null-与-undefined-详解">
+<a class="header-anchor" href="#2-null-%e4%b8%8e-undefined-%e8%af%a6%e8%a7%a3"></a>
+2. null 与 undefined 详解
+</h2><p>首先明确一点：Undefined 和 Null 都是基本数据类型，这两个基本数据类型分别都只有一个值，就是 <code>undefined</code> 和 <code>null</code>。</p>
+<h3 id="21-undefined表示未定义">
+<a class="header-anchor" href="#21-undefined%e8%a1%a8%e7%a4%ba%e6%9c%aa%e5%ae%9a%e4%b9%89"></a>
+2.1 undefined：表示&quot;未定义&quot;
+</h3><ul>
+<li><strong>含义</strong>：表示&quot;未定义&quot;或&quot;缺少值&quot;</li>
+<li><strong>类型</strong>：<code>undefined</code> 类型</li>
+<li><strong>产生场景</strong>：变量声明但未赋值、函数没有返回值、访问不存在的属性等</li>
+<li><strong>特点</strong>：通常由 JavaScript 引擎自动产生</li>
+</ul>
+<h3 id="22-null表示空值">
+<a class="header-anchor" href="#22-null%e8%a1%a8%e7%a4%ba%e7%a9%ba%e5%80%bc"></a>
+2.2 null：表示&quot;空值&quot;
+</h3><ul>
+<li><strong>含义</strong>：表示&quot;空&quot;或&quot;无&quot;，是一个明确的&quot;空值&quot;</li>
+<li><strong>类型</strong>：<code>object</code> 类型（这是一个历史bug，在第一篇中有详细讲解）</li>
+<li><strong>使用场景</strong>：开发者主动赋值，表示变量应该为空</li>
+<li><strong>特点</strong>：需要开发者主动设置</li>
+</ul>
+<h3 id="23-基本对比">
+<a class="header-anchor" href="#23-%e5%9f%ba%e6%9c%ac%e5%af%b9%e6%af%94"></a>
+2.3 基本对比
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 基本类型检测
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="kc">undefined</span><span class="p">);</span> <span class="c1">// &#34;undefined&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="kc">null</span><span class="p">);</span>      <span class="c1">// &#34;object&#34; (历史bug)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 值比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">undefined</span> <span class="o">==</span> <span class="kc">null</span><span class="p">);</span>  <span class="c1">// true (会进行类型转换)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">undefined</span> <span class="o">===</span> <span class="kc">null</span><span class="p">);</span> <span class="c1">// false (严格相等，类型不同)
+</span></span></span></code></pre></div><h3 id="24-产生-undefined-的常见场景">
+<a class="header-anchor" href="#24-%e4%ba%a7%e7%94%9f-undefined-%e7%9a%84%e5%b8%b8%e8%a7%81%e5%9c%ba%e6%99%af"></a>
+2.4 产生 undefined 的常见场景
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 1. 声明变量但未赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2. 函数参数未传递
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">greet</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 3. 函数没有返回值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">test</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 没有return语句
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">test</span><span class="p">());</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 4. 访问不存在的对象属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">person</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 5. 访问不存在的数组元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="mi">10</span><span class="p">]);</span> <span class="c1">// undefined
+</span></span></span></code></pre></div><h3 id="25-null-的使用场景">
+<a class="header-anchor" href="#25-null-%e7%9a%84%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af"></a>
+2.5 null 的使用场景
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 1. 主动设置为空值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 明确表示这个变量目前为空
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2. 清空对象引用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 断开引用，帮助垃圾回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 3. API返回空值
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 很多API在没有数据时返回null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;nonexistent&#34;</span><span class="p">);</span> <span class="c1">// null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 4. 初始化变量（当你知道后续会赋值对象时）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 稍后会赋值为用户对象
+</span></span></span></code></pre></div><h3 id="26-语义上的区别">
+<a class="header-anchor" href="#26-%e8%af%ad%e4%b9%89%e4%b8%8a%e7%9a%84%e5%8c%ba%e5%88%ab"></a>
+2.6 语义上的区别
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// undefined - &#34;这里应该有值，但目前没有定义&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">userAge</span><span class="p">;</span> <span class="c1">// 用户年龄还没获取到
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// null - &#34;这里明确地没有值&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">userAvatar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> <span class="c1">// 用户明确没有头像
+</span></span></span></code></pre></div><h3 id="27-常见陷阱">
+<a class="header-anchor" href="#27-%e5%b8%b8%e8%a7%81%e9%99%b7%e9%98%b1"></a>
+2.7 常见陷阱
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 陷阱1：typeof null
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="kc">null</span><span class="p">);</span> <span class="c1">// &#34;object&#34; 而不是 &#34;null&#34;，历史遗留bug
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 陷阱2：数组中的空元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">,</span> <span class="mi">3</span><span class="p">];</span> <span class="c1">// 第二个元素是 undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 陷阱3：解构赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="p">{</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">age</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{};</span> 
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// undefined (不是 null)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 陷阱4：函数参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">test</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">);</span> <span class="c1">// undefined undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">test</span><span class="p">();</span> <span class="c1">// 没传参数
+</span></span></span></code></pre></div><h3 id="28-对比总结">
+<a class="header-anchor" href="#28-%e5%af%b9%e6%af%94%e6%80%bb%e7%bb%93"></a>
+2.8 对比总结
+</h3><table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>undefined</th>
+          <th>null</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>含义</td>
+          <td>未定义、缺少值</td>
+          <td>明确的空值</td>
+      </tr>
+      <tr>
+          <td>类型</td>
+          <td>undefined</td>
+          <td>object (历史 bug)</td>
+      </tr>
+      <tr>
+          <td>产生方式</td>
+          <td>系统自动产生</td>
+          <td>开发者主动设置</td>
+      </tr>
+      <tr>
+          <td>JSON 序列化</td>
+          <td>被忽略</td>
+          <td>保留为 null</td>
+      </tr>
+      <tr>
+          <td>默认参数</td>
+          <td>触发默认值</td>
+          <td>不触发默认值</td>
+      </tr>
+      <tr>
+          <td>使用建议</td>
+          <td>表示 &ldquo;还未定义&rdquo;</td>
+          <td>表示 &ldquo;明确为空&rdquo;</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>通俗理解</strong>：</p>
+<ul>
+<li><code>undefined</code> = &ldquo;我不知道这里有什么&rdquo;</li>
+<li><code>null</code> = &ldquo;我知道这里是空的&rdquo;</li>
+</ul>
+<h2 id="3-比较操作符详解-与-objectis">
+<a class="header-anchor" href="#3-%e6%af%94%e8%be%83%e6%93%8d%e4%bd%9c%e7%ac%a6%e8%af%a6%e8%a7%a3-%e4%b8%8e-objectis"></a>
+3. 比较操作符详解：==、=== 与 Object.is()
+</h2><p>在 JavaScript 中进行判断时，有三种主要的比较方式：双等号（==）、三等号（===）和 Object.is()，它们各有特点。</p>
+<h3 id="31-核心区别概述">
+<a class="header-anchor" href="#31-%e6%a0%b8%e5%bf%83%e5%8c%ba%e5%88%ab%e6%a6%82%e8%bf%b0"></a>
+3.1 核心区别概述
+</h3><ul>
+<li><strong>双等号（==）</strong>：使用双等号（==）进行相等判断时，如果<strong>两边的类型不一致</strong>，则<strong>会进行强制类型转化</strong>后再进行比较。</li>
+<li><strong>三等号（===）</strong>：使用三等号（===）进行相等判断时，如果<strong>两边的类型不一致</strong>时，<strong>不会做强制类型准换</strong>，直接返回 false。</li>
+<li><strong>Object.is()</strong>：Object.is()是ES6新增方法, 使用 Object.is 来进行相等判断时，一般情况下和三等号的判断相同，但它处理了一些特殊的情况，比如 -0 和 +0 不再相等，两个 NaN是相等的。</li>
+</ul>
+<h3 id="32-基本类型比较">
+<a class="header-anchor" href="#32-%e5%9f%ba%e6%9c%ac%e7%b1%bb%e5%9e%8b%e6%af%94%e8%be%83"></a>
+3.2 基本类型比较
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 数字比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>          <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>         <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 字符串比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span> <span class="o">==</span> <span class="s2">&#34;hello&#34;</span><span class="p">);</span>          <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span> <span class="o">===</span> <span class="s2">&#34;hello&#34;</span><span class="p">);</span>         <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">,</span> <span class="s2">&#34;hello&#34;</span><span class="p">));</span> <span class="c1">// true
+</span></span></span></code></pre></div><h3 id="33-类型转换差异">
+<a class="header-anchor" href="#33-%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2%e5%b7%ae%e5%bc%82"></a>
+3.3 类型转换差异
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// == 比较时,会先进行类型转换,再比较
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="s2">&#34;1&#34;</span><span class="p">);</span>          <span class="c1">// true (字符串转为数字)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">true</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>         <span class="c1">// true (布尔值转为数字,true → 1，false → 0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">null</span> <span class="o">==</span> <span class="kc">undefined</span><span class="p">);</span> <span class="c1">// true (特殊规则)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;&#34;</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>           <span class="c1">// true (空字符串转为0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// === 和 Object.is() 不进行类型转换
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">===</span> <span class="s2">&#34;1&#34;</span><span class="p">);</span>          <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">true</span> <span class="o">===</span> <span class="mi">1</span><span class="p">);</span>         <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">null</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">);</span> <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;&#34;</span> <span class="o">===</span> <span class="mi">0</span><span class="p">);</span>           <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;1&#34;</span><span class="p">));</span>          <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>         <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">));</span> <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>           <span class="c1">// false
+</span></span></span></code></pre></div><h3 id="34-布尔值转换的特殊规则">
+<a class="header-anchor" href="#34-%e5%b8%83%e5%b0%94%e5%80%bc%e8%bd%ac%e6%8d%a2%e7%9a%84%e7%89%b9%e6%ae%8a%e8%a7%84%e5%88%99"></a>
+3.4 布尔值转换的特殊规则
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 布尔值会先转为数字：true → 1，false → 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">true</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">false</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 但是其他数字对比会返回false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">true</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">false</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// false
+</span></span></span></code></pre></div><h3 id="35-特殊值的处理差异">
+<a class="header-anchor" href="#35-%e7%89%b9%e6%ae%8a%e5%80%bc%e7%9a%84%e5%a4%84%e7%90%86%e5%b7%ae%e5%bc%82"></a>
+3.5 特殊值的处理差异
+</h3><p>这是三者最重要的区别所在：</p>
+<h4 id="351-nan-的比较">
+<a class="header-anchor" href="#351-nan-%e7%9a%84%e6%af%94%e8%be%83"></a>
+3.5.1 NaN 的比较
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">NaN</span> <span class="o">==</span> <span class="kc">NaN</span><span class="p">);</span>          <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">NaN</span> <span class="o">===</span> <span class="kc">NaN</span><span class="p">);</span>         <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="kc">NaN</span><span class="p">,</span> <span class="kc">NaN</span><span class="p">));</span> <span class="c1">// true 
+</span></span></span></code></pre></div><h4 id="352-0-和--0-的比较">
+<a class="header-anchor" href="#352-0-%e5%92%8c--0-%e7%9a%84%e6%af%94%e8%be%83"></a>
+3.5.2 +0 和 -0 的比较
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">+</span><span class="mi">0</span> <span class="o">==</span> <span class="o">-</span><span class="mi">0</span><span class="p">);</span>          <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">+</span><span class="mi">0</span> <span class="o">===</span> <span class="o">-</span><span class="mi">0</span><span class="p">);</span>         <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="o">+</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">));</span> <span class="c1">// false 
+</span></span></span></code></pre></div><h3 id="36-常见坑场景">
+<a class="header-anchor" href="#36-%e5%b8%b8%e8%a7%81%e5%9d%91%e5%9c%ba%e6%99%af"></a>
+3.6 常见&quot;坑&quot;场景
+</h3><p>这种隐式转换可能导致反直觉的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">true</span> <span class="o">==</span> <span class="s2">&#34;1&#34;</span><span class="p">);</span>  <span class="c1">// true（&#34;1&#34;转为数字1，true转为1）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">false</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>   <span class="c1">// true（false转为0）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">false</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span><span class="p">);</span>  <span class="c1">// true（&#34;&#34;转为数字0，false转为0）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;0&#34;</span> <span class="o">==</span> <span class="kc">false</span><span class="p">);</span> <span class="c1">// true（false转为0，&#34;0&#34;转为0）
+</span></span></span></code></pre></div><h3 id="37-使用建议">
+<a class="header-anchor" href="#37-%e4%bd%bf%e7%94%a8%e5%bb%ba%e8%ae%ae"></a>
+3.7 使用建议
+</h3><ul>
+<li><strong>一般情况</strong>：推荐使用 <code>===</code>，避免意外的类型转换</li>
+<li><strong>特殊需求</strong>：当需要精确区分 NaN 或 ±0 时，使用 <code>Object.is()</code></li>
+<li><strong>避免使用</strong>：除非明确需要类型转换，否则避免使用 <code>==</code></li>
+</ul>
+<h2 id="4-this-指向讲解">
+<a class="header-anchor" href="#4-this-%e6%8c%87%e5%90%91%e8%ae%b2%e8%a7%a3"></a>
+4. this 指向讲解
+</h2><h3 id="41-对-this-对象的理解">
+<a class="header-anchor" href="#41-%e5%af%b9-this-%e5%af%b9%e8%b1%a1%e7%9a%84%e7%90%86%e8%a7%a3"></a>
+4.1 对 this 对象的理解
+</h3><p><code>this</code> 是JavaScript中的一个关键字，它是执行上下文中的一个属性，<strong>指向最后一次调用这个方法的对象</strong>。</p>
+<p><strong>核心原则</strong></p>
+<ul>
+<li><code>this</code> 在<strong>运行时绑定</strong>，不是编写时绑定</li>
+<li><code>this</code> 的值由函数<strong>如何被调用</strong>决定</li>
+<li>每次函数调用都会重新确定 <code>this</code> 的值</li>
+</ul>
+<h3 id="42-场景讲解">
+<a class="header-anchor" href="#42-%e5%9c%ba%e6%99%af%e8%ae%b2%e8%a7%a3"></a>
+4.2 场景讲解
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 不管 foo 函数在哪里定义，直接调用时 this 都指向全局对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">)</span> <span class="c1">// this === window (浏览器) 或 global (Node.js)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">// 全局变量
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 第一种**函数调用模式**    (默认绑定)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">foo</span><span class="p">()</span> <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 第二种**方法调用模式**    ( 隐式绑定)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">a</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">foo</span><span class="o">:</span> <span class="nx">foo</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">foo</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 第三种**构造器调用模式**   (new 绑定)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">foo</span><span class="p">()</span>
+</span></span></code></pre></div><p>以上场景分析:</p>
+<p>1.对于直接调用 <code>foo</code> 来说，不管 <code>foo</code> 函数被放在了什么地方，<code>this</code> 一定是 <code>window</code> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>2.对于 <code>obj.foo()</code> 来说，我们只需要记住，谁调用了函数，谁就是 <code>this</code>，所以在这个场景下 <code>foo</code> 函数中的 <code>this</code> 就是 <code>obj</code> 对象<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>3.对于 <code>new</code> 的方式来说，<code>this</code> 被永远绑定在了 <code>c</code> 上面，不会被任何方式改变 <code>this</code> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>以上是this的三种绑定方式,还有第四种绑定方式:</p>
+<p><strong>显式绑定（call、apply、bind）</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">person1</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">person2</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;李四&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">introduce</span><span class="p">(</span><span class="nx">age</span><span class="p">,</span> <span class="nx">city</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`我是 </span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">，</span><span class="si">${</span><span class="nx">age</span><span class="si">}</span><span class="sb">岁，来自</span><span class="si">${</span><span class="nx">city</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// call：立即调用，参数逐个传递
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">introduce</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">person1</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&#34;北京&#34;</span><span class="p">);</span>    <span class="c1">// &#34;我是 张三，25岁，来自北京&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">introduce</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">person2</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&#34;上海&#34;</span><span class="p">);</span>    <span class="c1">// &#34;我是 李四，30岁，来自上海&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// apply：立即调用，参数以数组形式传递
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">introduce</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">person1</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="s2">&#34;北京&#34;</span><span class="p">]);</span> <span class="c1">// &#34;我是 张三，25岁，来自北京&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// bind：返回新函数，不立即调用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">introduceZhangSan</span> <span class="o">=</span> <span class="nx">introduce</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">person1</span><span class="p">,</span> <span class="mi">25</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">introduceZhangSan</span><span class="p">(</span><span class="s2">&#34;北京&#34;</span><span class="p">);</span> <span class="c1">// &#34;我是 张三，25岁，来自北京&#34;
+</span></span></span></code></pre></div><p><strong>apply 、 call 和 bind 调用模式</strong>，这三个方法都可以显示的指定调用函数的 this 指向。<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>总结: this 的指向可以通过四种调用模式来判断。</p>
+<p><strong>优先级: 这四种方式，使用构造器调用模式的优先级最高，然后是 apply、call和 bind 调用模式，然后是方法调用模式，然后是函数调用模式。</strong></p>
+<h3 id="43-箭头函数的-this">
+<a class="header-anchor" href="#43-%e7%ae%ad%e5%a4%b4%e5%87%bd%e6%95%b0%e7%9a%84-this"></a>
+4.3 箭头函数的 this
+</h3><p><strong>核心特点</strong></p>
+<p>箭头函数并没有属于⾃⼰的 this，它所谓的 this 是捕获其所在上下⽂的 this 值(<strong>也可以说是继承外层作用域</strong>的this)，作为⾃⼰的 this 值，并且由于没有属于⾃⼰的 this，所以是不会被 new调⽤的，这个所谓的 this 也不会被改变。</p>
+<h4 id="431-场景1">
+<a class="header-anchor" href="#431-%e5%9c%ba%e6%99%af1"></a>
+4.3.1 场景1
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 普通函数：this 由调用方式决定
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">normalFunction</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;普通函数:&#34;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 箭头函数：继承外层作用域的 this（即 obj）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">arrowFunction</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;箭头函数:&#34;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">arrowFunction</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">normalFunction</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出：
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 普通函数: 张三
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 箭头函数: 张三
+</span></span></span></code></pre></div><h4 id="432-场景2-嵌套箭头函数">
+<a class="header-anchor" href="#432-%e5%9c%ba%e6%99%af2-%e5%b5%8c%e5%a5%97%e7%ae%ad%e5%a4%b4%e5%87%bd%e6%95%b0"></a>
+4.3.2 场景2: 嵌套箭头函数
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">a</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">()()());</span> <span class="c1">// this 指向 window
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 因为包裹箭头函数的第一个普通函数是 a，所以 this 是 window
+</span></span></span></code></pre></div><h4 id="433-箭头函数的-this-无法改变">
+<a class="header-anchor" href="#433-%e7%ae%ad%e5%a4%b4%e5%87%bd%e6%95%b0%e7%9a%84-this-%e6%97%a0%e6%b3%95%e6%94%b9%e5%8f%98"></a>
+4.3.3 箭头函数的 this 无法改变
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;张三&#34;</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">arrow</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 箭头函数的 this 无法通过 call、apply、bind 改变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">arrow</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>   <span class="c1">// undefined (this 仍指向全局对象)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">arrow</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>  <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">arrow</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">obj</span><span class="p">)();</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 对比普通函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">normal</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">normal</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span> <span class="c1">// &#34;张三&#34;
+</span></span></span></code></pre></div><h3 id="44-实际应用场景">
+<a class="header-anchor" href="#44-%e5%ae%9e%e9%99%85%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af"></a>
+4.4 实际应用场景
+</h3><h4 id="441-事件处理中的-this">
+<a class="header-anchor" href="#441-%e4%ba%8b%e4%bb%b6%e5%a4%84%e7%90%86%e4%b8%ad%e7%9a%84-this"></a>
+4.4.1 事件处理中的 this
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;按钮对象&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 普通函数：this 指向 button 元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">handleClick</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// button 元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 箭头函数：this 指向 obj
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">handleClickArrow</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// obj 对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">handleClickArrow</span><span class="p">);</span>
+</span></span></code></pre></div><h4 id="442-定时器中的-this">
+<a class="header-anchor" href="#442-%e5%ae%9a%e6%97%b6%e5%99%a8%e4%b8%ad%e7%9a%84-this"></a>
+4.4.2 定时器中的 this
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;定时器对象&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 普通函数：this 指向 window
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// undefined
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 箭头函数：this 指向 obj
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &#34;定时器对象&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</span></span></code></pre></div><p>哎,还有this丢失问题等等暂时就先不写了,看的脑壳疼</p>
+<h2 id="5-总结">
+<a class="header-anchor" href="#5-%e6%80%bb%e7%bb%93"></a>
+5. 总结
+</h2><h3 id="51-null-和-undefined">
+<a class="header-anchor" href="#51-null-%e5%92%8c-undefined"></a>
+5.1 null 和 undefined
+</h3><ul>
+<li>使用 <code>undefined</code> 表示&quot;未定义的值&quot;</li>
+<li>使用 <code>null</code> 表示&quot;明确的空值&quot;</li>
+<li>避免手动设置变量为 <code>undefined</code></li>
+</ul>
+<h3 id="52-比较操作符">
+<a class="header-anchor" href="#52-%e6%af%94%e8%be%83%e6%93%8d%e4%bd%9c%e7%ac%a6"></a>
+5.2 比较操作符
+</h3><ul>
+<li>优先使用 <code>===</code> 进行比较，避免类型转换陷阱</li>
+<li>需要精确比较 NaN 或区分 ±0 时使用 <code>Object.is()</code></li>
+<li>谨慎使用 <code>==</code>，除非明确需要类型转换</li>
+</ul>
+<h3 id="53-this-指向">
+<a class="header-anchor" href="#53-this-%e6%8c%87%e5%90%91"></a>
+5.3 this 指向
+</h3><ul>
+<li>记住四种绑定方式和优先级</li>
+<li>箭头函数继承外层作用域的 <code>this</code>，无法改变</li>
+<li>在需要保持 <code>this</code> 指向的场景下优先考虑箭头函数</li>
+<li>使用 <code>call</code>、<code>apply</code>、<code>bind</code> 显式绑定 <code>this</code></li>
+</ul>
+<h2 id="6-小结">
+<a class="header-anchor" href="#6-%e5%b0%8f%e7%bb%93"></a>
+6. 小结
+</h2><p>本文深入讲解了 JavaScript 中容易混淆的核心概念：<code>null</code> 与 <code>undefined</code> 的语义差异、三种比较操作符的行为区别，以及复杂但重要的 <code>this</code> 指向机制。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>第一种是<strong>函数调用模式</strong>，当一个函数不是一个对象的属性时，<strong>直接作为函数来调用</strong>时，this 指向全局对象。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>第二种是<strong>方法调用模式</strong>，如果<strong>一个函数作为一个对象的方法来调用</strong>时，this 指向这个对象。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>第三种是<strong>构造器调用模式</strong>，如果<strong>一个函数用 new 调用</strong>时，函数执行前会新创建一个对象，this 指向这个新创建的对象。&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>第四种是<strong>apply 、 call 和 bind 调用模式</strong>，这三个方法都可以显示的指定调用函数的 this 指向。其中 apply 方法接收两个参数：一个是 this 绑定的对象，一个是参数数组。call 方法接收的参数，第一个是 this 绑定的对象，后面的其余参数是传入函数执行的参数。也就是说，在使用 call() 方法时，传递给函数的参数必须逐个列举出来。bind 方法通过传入一个对象，返回一个 this 绑定了传入对象的新函数。这个函数的 this 指向除了使用 new 时会被改变，其他情况下都不会改变。&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</div>
+    <footer class="article-footer"><a
+          data-aos="zoom-in"
+          href="/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C/#comments"
+          class="article-comment-link"
+        >
+          <span
+            class="post-comments-count valine-comment-count"
+            data-xid="http//localhost1313/post/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%ba%8c/"
+            itemprop="commentCount"
+          ></span>
+          留言
+        </a><ul class="article-tag-list" itemprop="keywords"></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt="JavaScript基础知识点（一）：数据类型与内存管理"
+              class="lazyload"
+            /><a href="/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">JavaScript基础知识点（一）：数据类型与内存管理</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="valine">
+          <span>valine</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment valine-comment" data-aos="fade-up"
+     >
+    </div></div>
+</section></section>
+        </div><footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info"><div>
+      <span class="icon-copyright"></span>2024-2025<span class="footer-info-sep rotate"></span>
+      Beats_Gu
+    </div><div>
+        <span class="icon-brush"
+          >&nbsp;45.0k</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;01:33</span>
+      </div><div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div></div>
+</footer>
+<div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div><div id="mask" class="hide"></div>
+      </div><nav id="mobile-nav">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-null-与-undefined-详解">2. null 与 undefined 详解</a>
+      <ul>
+        <li><a href="#21-undefined表示未定义">2.1 undefined：表示&quot;未定义&quot;</a></li>
+        <li><a href="#22-null表示空值">2.2 null：表示&quot;空值&quot;</a></li>
+        <li><a href="#23-基本对比">2.3 基本对比</a></li>
+        <li><a href="#24-产生-undefined-的常见场景">2.4 产生 undefined 的常见场景</a></li>
+        <li><a href="#25-null-的使用场景">2.5 null 的使用场景</a></li>
+        <li><a href="#26-语义上的区别">2.6 语义上的区别</a></li>
+        <li><a href="#27-常见陷阱">2.7 常见陷阱</a></li>
+        <li><a href="#28-对比总结">2.8 对比总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-比较操作符详解-与-objectis">3. 比较操作符详解：==、=== 与 Object.is()</a>
+      <ul>
+        <li><a href="#31-核心区别概述">3.1 核心区别概述</a></li>
+        <li><a href="#32-基本类型比较">3.2 基本类型比较</a></li>
+        <li><a href="#33-类型转换差异">3.3 类型转换差异</a></li>
+        <li><a href="#34-布尔值转换的特殊规则">3.4 布尔值转换的特殊规则</a></li>
+        <li><a href="#35-特殊值的处理差异">3.5 特殊值的处理差异</a></li>
+        <li><a href="#36-常见坑场景">3.6 常见&quot;坑&quot;场景</a></li>
+        <li><a href="#37-使用建议">3.7 使用建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-this-指向讲解">4. this 指向讲解</a>
+      <ul>
+        <li><a href="#41-对-this-对象的理解">4.1 对 this 对象的理解</a></li>
+        <li><a href="#42-场景讲解">4.2 场景讲解</a></li>
+        <li><a href="#43-箭头函数的-this">4.3 箭头函数的 this</a></li>
+        <li><a href="#44-实际应用场景">4.4 实际应用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-总结">5. 总结</a>
+      <ul>
+        <li><a href="#51-null-和-undefined">5.1 null 和 undefined</a></li>
+        <li><a href="#52-比较操作符">5.2 比较操作符</a></li>
+        <li><a href="#53-this-指向">5.3 this 指向</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-小结">6. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">6</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
+</div><div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div><script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script src="/js/main.js" ></script><script src="/js/aos.js" ></script><script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script><script src="/js/pjax_main.js" data-pjax></script><script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "PBK297AOMW",
+        apiKey: "d5d1fc0397aa43d7f922d5ca2330a187",
+        indexName: "",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": '搜索.....',
+          "hits_empty": '未发现与 「${query}」相关内容',
+          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
+        }
+      }
+    };
+  </script><script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/@reimujs/instantsearch.js@4.57.0-beta.1/dist/instantsearch.production.min.js"
+    deferintegrity="sha384-aagKMe8nkqaP2DYQc8kkYOL5l&#43;M5Q2WH/Uhr4teOh0Ybp0RZj0kUSDm45qPikMjK" crossorigin="anonymous"></script><script src="/js/algolia_search.js" ></script><script>
+  function initLive2d() {
+    live2d.init('https:\/\/fastly.jsdelivr.net\/gh\/D-Sketon\/plugin-live2d\/', {themeTipsPath: ""});
+  }
+</script><script
+    src="https://fastly.jsdelivr.net/gh/D-Sketon/plugin-live2d/js/live2d-autoload.js"
+    asynconload="initLive2d()"></script><script
+    src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"
+    integrity="sha384-aD7FsuQkS1ohgFKY41fJfeA&#43;Wd/QRNnrOd9Bs58K3FzKdJJv8yPnYU8Tnp5z1agS" crossorigin="anonymous"></script><script data-pjax>
+    window.quicklink?.listen({
+      timeout:  3000 ,
+      priority:  true ,
+      ignores: JSON.parse("[]")
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div><script data-pjax>
+        window.REIMU_POST = {
+          author: "Beats_Gu",
+          title: "JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解",
+          url: "http:\/\/localhost:1313\/post\/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C\/",
+          description: " JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解 1. 前言 在 JavaScript 基础知识点（一）中，我们了解了原始类型和对象类型（也称为基本数据类型和引用数据类型）。本文将深入探讨其中最容易混淆的概念：null 与 undefined 的区别、比较操作符的差异，以及 JavaScript 中最复杂的 this 指向问题。\n",
+          cover: "http:\/\/localhost:1313\/images\/banner.webp",
+        };
+      </script><script src="/js/insert_highlight.js" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script><script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
+  var commentConfig = {
+    valine: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.valine-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
+          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
+        );
+        script.onload = () => {
+          const GUEST_INFO = ['nick', 'mail', 'link'];
+          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
+            return GUEST_INFO.indexOf(item) > -1
+          });
+          const recordIP = JSON.parse('true');
+          const highlight = JSON.parse('true');
+          const visitor = JSON.parse('false');
+          const serverURLs = undefined;
+
+          new Valine({
+            el: '.valine-comment',
+            appId: "pzdnUsDUISWmBffXX6co6q3R-gzGzoHsz",
+            appKey: "GKPZSi7oEGO1SoAE7EzNzfeV",
+            placeholder: "快来评论吧",
+            pageSize: '10',
+            avatar: 'mp',
+            lang: document.documentElement.lang || 'en',
+            recordIP: recordIP,
+            highlight: highlight,
+            visitor: visitor,
+            requiredFields: guest_info,
+            path: window.location.pathname,
+            serverURLs,
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    waline: {
+      enable: false,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
+        
+        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
+          
+          const module = await safeImport(walineCdn);
+          walineInit = module.init;
+        } else {
+          
+          const module = await safeImport(
+            walineCdn, 
+            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
+          );
+          walineInit = module.init;
+        }
+        
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: '',
+          lang: document.documentElement.lang || 'en',
+          locale: JSON.parse("{}"),
+          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
+          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
+          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
+          wordLimit:  0 ,
+          comment: true,
+          pageSize:  10 ,
+          dark: 'html[data-theme="dark"]',
+          pageview:  true ,
+        });
+      }
+    },
+    twikoo: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.twikoo-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
+          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
+        );
+        script.onload = () => {
+          twikoo.init({
+            envId: '',
+            el: '.twikoo-comment',
+            region: '',
+            lang: document.documentElement.lang || 'en',
+          });
+          twikoo.getCommentsCount({
+            envId: '',
+            region: '',
+            urls: [
+              'http\/\/localhost1313\/post\/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%ba%8c\/'
+            ],
+            includeReply: false
+          }).then((res) => {
+            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    gitalk: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
+          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
+        );
+        script.onload = () => {
+          if ( false ) {
+            
+            const md5Script = loadScript(
+              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
+              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            
+            initGitalk();
+          }
+        };
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          let gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: JSON.parse("null"),
+            id: location.pathname,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          });
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    giscus: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+
+        const docLang = document.documentElement.lang || 'en';
+        const langBase = docLang.split('-')[0];
+        const supportedLangs = ['ar', 'be', 'bg', 'ca', 'cs', 'da', 'de', 'en', 
+        'eo', 'es', 'eu', 'fa', 'fr', 'gr', 'hbs', 'he', 'hu', 'id', 'it', 'ja', 
+        'kh', 'ko', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tr', 'uk', 'uz', 'vi', 'zh-CN', 'zh-HK', 'zh-TW'];
+        const giscusLang = supportedLangs.includes(docLang) ? docLang : supportedLangs.includes(langBase) ? langBase : 'en';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', '');
+        giscusScript.setAttribute('data-repo-id', '');
+        giscusScript.setAttribute('data-category', '');
+        giscusScript.setAttribute('data-category-id', '');
+        giscusScript.setAttribute('data-mapping', '0');
+        giscusScript.setAttribute('data-strict', '0');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
+        giscusScript.setAttribute('data-lang', giscusLang);
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        document.body.addEventListener('light-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
+        });
+        document.body.addEventListener('dark-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
+        });
+      }
+    }
+  };
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      
+      const commentType = item.getAttribute('data-selector');
+
+      
+      hideAllComments();
+
+      
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          
+          changeActiveCommentItems(item);
+        });
+      }
+
+      
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script></div>
+</div><script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script><script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script></body>
+</html>

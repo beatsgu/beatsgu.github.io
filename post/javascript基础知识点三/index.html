@@ -1,0 +1,1354 @@
+<!doctype html>
+<html
+  lang="zh-cn" 
+  data-theme-mode="auto"
+  >
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/><title>
+  JavaScript基础知识点（三）：闭包解析与作用域讲解 | Beats_Gu
+</title>
+<meta
+  name="description"
+  content="少年须知凌云志..."
+/><script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"base\":\"http://localhost:1313/\",\"clipboard\":{\"copyright\":{\"count\":50,\"enable\":false,\"license_type\":\"by-nc-sa\"},\"fail\":{\"en\":\"Copy failed (ﾟ⊿ﾟ)ﾂ\",\"ja\":\"コピー失敗 (ﾟ⊿ﾟ)ﾂ\",\"zh-cn\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"zh-tw\":\"複製失敗 (ﾟ⊿ﾟ)ﾂ\"},\"success\":{\"en\":\"Copy successfully (*^▽^*)\",\"ja\":\"コピー成功 (*^▽^*)\",\"zh-cn\":\"复制成功 (*^▽^*)\",\"zh-tw\":\"複製成功 (*^▽^*)\"}},\"code_block\":{\"expand\":true},\"icon_font\":false,\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":{\"en\":\"This article was last updated on {time}. Please note that the content may no longer be applicable.\",\"ja\":\"この記事は最終更新日：{time}。記載内容が現在有効でない可能性がありますのでご注意ください。\",\"zh-cn\":\"本文最后更新于 {time}，请注意文中内容可能已不适用。\",\"zh-tw\":\"本文最後更新於 {time}，請注意文中內容可能已不適用。\"}}}");
+  
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+<link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/regular.min.css"
+    integrity="sha384-k5640LgghgAohDLPwSqVWa96yQwWouT6wsAL&#43;J1g0CFJVITNKYkIh1XpPLYKQe7Y" crossorigin="anonymous"/><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/solid.min.css"
+    integrity="sha384-8yO/A/BtltnG0hDxdwmmkza8UAleyDoAD1FhXiH6rsOQQsCho1P6WZP9TpBBH3YP" crossorigin="anonymous"/><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/brands.min.css"
+    integrity="sha384-/BRyRRN0wxxRgh/DAXU621go9pdoMHl6LFPiX5Pp8PZYZlKBQCDXj9X9DHx6LOud" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v5-font-face.min.css"
+    integrity="sha384-/mBKnLlGtog8q2qQrgugURRDV&#43;iHWHAPvM5KulYXT1C2ErKOKkBI0vbff8ZPq7rL" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/@fortawesome/fontawesome-free@6.5.1/css/v4-font-face.min.css"
+    integrity="sha384-d2Yn1/9Iw78r3oqwk5B&#43;EcpRcmepXR5LyhmRF2a&#43;WoSe9mpRGvVk0ZviFwDGDOTO" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link rel="stylesheet" href="/css/loader.css" />
+<meta property="og:type" content="website" />
+  <meta property="og:title" content="JavaScript基础知识点（三）：闭包解析与作用域讲解 | Beats_Gu" />
+  <meta
+    property="og:description"
+    content="少年须知凌云志..."
+  />
+  <meta property="og:url" content="http://localhost:1313/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%89/" />
+  <meta
+    property="og:site_name"
+    content="欢迎来到 Beats_Gu 站点"
+  />
+  <meta
+    property="og:image"
+    content="/"
+  />
+  <meta property="article:author" content="Beats_Gu" />
+  <meta property="article:published_time" content="2025-08-28T14:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2025-08-28T14:00:00&#43;08:00" /><meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/" />
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" />
+<link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei&#43;Zx/1oA/0l8ysE" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.22/dist/katex.min.css"
+    integrity="sha384-5TcZemv2l/9On385z///&#43;d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"onload="this.onload=null;this.rel='stylesheet'"
+  /><script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script><link
+    rel="stylesheet"
+    href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css"
+    integrity="sha384-4NN3fZ5AokFyHuoihl7A9qWaCt&#43;HsAtOaUsXwJGRb4/SMBtFr2vcNSHR5E8dg0Wk" crossorigin="anonymous"/></head>
+  <body><div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate"><svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg></div><div class="loading-word">貂蝉正在骑马来的路上...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script><div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="lang-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+本文章没有找到对应的语言版本
+</div>
+<div id="heatmap-tooltip"></div><div id="container">
+      <div id="wrap"><div id="header-nav">
+  <nav id="main-nav"><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span><span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>&#xf6ad;</div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span><a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav"><a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a></nav></div>
+<header id="header"><picture><source media="(max-width: 479px)" srcset="/images/banner-600w.webp"><source media="(max-width: 799px)" srcset="/images/banner-800w.webp"><source media="(min-width: 800px)" srcset="/images/banner.webp"><img  fetchpriority="high" src="/images/banner.webp" alt="JavaScript基础知识点（三）：闭包解析与作用域讲解"></picture><img alt="JavaScript基础知识点（三）：闭包解析与作用域讲解" style="visibility: hidden;"><div id="header-outer">
+    <div id="header-title"><a href="/" id="logo">
+            <h1 data-aos="slide-up">JavaScript基础知识点（三）：闭包解析与作用域讲解</h1>
+          </a><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
+  </div>
+</header><div id="content"
+          class="sidebar-left"
+            ><aside id="sidebar"><div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    ><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-什么是闭包">2. 什么是闭包</a>
+      <ul>
+        <li><a href="#21-闭包的定义">2.1 闭包的定义</a></li>
+        <li><a href="#22-闭包的形成条件">2.2 闭包的形成条件</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-闭包的基本形成机制">3. 闭包的基本形成机制</a>
+      <ul>
+        <li><a href="#31-经典闭包示例">3.1 经典闭包示例</a></li>
+        <li><a href="#32-关键疑问为什么-outer-执行完num-没被销毁">3.2 关键疑问：为什么 <code>outer</code> 执行完，<code>num</code> 没被销毁？</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-闭包的判断标准">4. 闭包的判断标准</a>
+      <ul>
+        <li><a href="#41-关键判断原则">4.1 关键判断原则</a></li>
+        <li><a href="#42-情况分析">4.2 情况分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-闭包经典案例循环中的-settimeout">5. 闭包经典案例：循环中的 setTimeout</a>
+      <ul>
+        <li><a href="#51-问题场景">5.1 问题场景</a></li>
+        <li><a href="#52-问题分析">5.2 问题分析</a></li>
+        <li><a href="#53-闭包解决方案">5.3 闭包解决方案</a></li>
+        <li><a href="#54-使用-let">5.4 使用 <code>let</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#6var的函数作用域和let的块级作用域">6.var的函数作用域和let的块级作用域</a>
+      <ul>
+        <li><a href="#61-函数作用域-vs-块级作用域">6.1 函数作用域 vs 块级作用域</a></li>
+        <li><a href="#62-作用域对比案例">6.2 作用域对比案例</a></li>
+        <li><a href="#63-为什么-var-会导致-settimeout-问题">6.3 为什么 var 会导致 setTimeout 问题？</a></li>
+      </ul>
+    </li>
+    <li><a href="#7闭包是否会造成内存泄漏">7.闭包是否会造成内存泄漏？</a>
+      <ul>
+        <li><a href="#71-闭包的内存机制">7.1 <strong>闭包的内存机制</strong></a></li>
+        <li><a href="#72-导致内存泄漏情况">7.2 导致内存泄漏情况</a></li>
+        <li><a href="#73-内存泄漏的判断原则">7.3 内存泄漏的判断原则</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-一句话总结">8. 一句话总结</a></li>
+    <li><a href="#9-小结">9. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">7</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div><div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div></div>
+  </div>
+
+  <div class="sidebar-widget"></div></aside>
+<section id="main"><article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta"><div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-08-28 14:00:00 &#43;0800 CST" itemprop="datePublished"
+      >2025-08-28</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-08-28</time
+    >
+  </span>
+</div>
+<div class="article-category"></div>
+</div>
+    <div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h1 id="javascript基础知识点三闭包解析与作用域讲解">
+<a class="header-anchor" href="#javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%89%e9%97%ad%e5%8c%85%e8%a7%a3%e6%9e%90%e4%b8%8e%e4%bd%9c%e7%94%a8%e5%9f%9f%e8%ae%b2%e8%a7%a3"></a>
+JavaScript基础知识点（三）：闭包解析与作用域讲解
+</h1><h2 id="1-前言">
+<a class="header-anchor" href="#1-%e5%89%8d%e8%a8%80"></a>
+1. 前言
+</h2><p>闭包是 JavaScript 中最重要也是最容易混淆的概念之一。它不是某种特殊的语法，而是作用域规则的自然结果。本文将从基础概念开始，深入探讨闭包的形成机制、经典应用场景，以及相关的作用域知识。</p>
+<p><a href="https://blog.csdn.net/wtyv3164/article/details/150962544?fromshare=blogdetail&amp;sharetype=blogdetail&amp;sharerId=150962544&amp;sharerefer=PC&amp;sharesource=wtyv3164&amp;sharefrom=from_link">CSDN文章链接</a></p>
+<h2 id="2-什么是闭包">
+<a class="header-anchor" href="#2-%e4%bb%80%e4%b9%88%e6%98%af%e9%97%ad%e5%8c%85"></a>
+2. 什么是闭包
+</h2><h3 id="21-闭包的定义">
+<a class="header-anchor" href="#21-%e9%97%ad%e5%8c%85%e7%9a%84%e5%ae%9a%e4%b9%89"></a>
+2.1 闭包的定义
+</h3><p><strong>闭包的定义很简单：函数 A 内部有一个函数 B，函数 B 可以访问到函数 A 中的变量，那么函数 B 就是闭包。</strong></p>
+<p>在 JavaScript 中，闭包存在的意义就是让我们可以<strong>间接访问函数内部的变量</strong>。</p>
+<blockquote>
+<p><strong>重要提示</strong>：闭包不是&quot;语法特性&quot;，而是&quot;作用域规则的自然结果&quot;。</p></blockquote>
+<h3 id="22-闭包的形成条件">
+<a class="header-anchor" href="#22-%e9%97%ad%e5%8c%85%e7%9a%84%e5%bd%a2%e6%88%90%e6%9d%a1%e4%bb%b6"></a>
+2.2 闭包的形成条件
+</h3><p>闭包需要满足三个条件：</p>
+<ol>
+<li><strong>嵌套函数</strong>：函数内部定义另一个函数</li>
+<li><strong>访问外部变量</strong>：内部函数访问外部函数的变量</li>
+<li><strong>外部引用</strong>：内部函数被外部作用域引用（通常是被返回或传递）</li>
+</ol>
+<h2 id="3-闭包的基本形成机制">
+<a class="header-anchor" href="#3-%e9%97%ad%e5%8c%85%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%bd%a2%e6%88%90%e6%9c%ba%e5%88%b6"></a>
+3. 闭包的基本形成机制
+</h2><h3 id="31-经典闭包示例">
+<a class="header-anchor" href="#31-%e7%bb%8f%e5%85%b8%e9%97%ad%e5%8c%85%e7%a4%ba%e4%be%8b"></a>
+3.1 经典闭包示例
+</h3><p>最经典的闭包场景是&quot;函数嵌套 + 返回内层函数&quot;：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 1. 定义外层函数 outer，内部有局部变量 num
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">outer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">// 外层函数的局部变量（本应只在 outer 内部访问）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 2. 定义内层函数 inner（闭包的核心载体）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">function</span> <span class="nx">inner</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="c1">// 内层函数访问外层的 num（触发作用域链查找）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 3. 关键：将内层函数 inner 作为返回值&#34;带出&#34;外层作用域
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nx">inner</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 4. 执行 outer()，得到返回的 inner 函数，赋值给全局变量 fn
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">fn</span> <span class="o">=</span> <span class="nx">outer</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 5. 此时 fn（即 inner）已在全局作用域执行，但依然能访问 outer 的 num！
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fn</span><span class="p">();</span> <span class="c1">// 输出：10 → 这就是闭包的效果
+</span></span></span></code></pre></div><h3 id="32-关键疑问为什么-outer-执行完num-没被销毁">
+<a class="header-anchor" href="#32-%e5%85%b3%e9%94%ae%e7%96%91%e9%97%ae%e4%b8%ba%e4%bb%80%e4%b9%88-outer-%e6%89%a7%e8%a1%8c%e5%ae%8cnum-%e6%b2%a1%e8%a2%ab%e9%94%80%e6%af%81"></a>
+3.2 关键疑问：为什么 <code>outer</code> 执行完，<code>num</code> 没被销毁？
+</h3><p>正常情况下，函数执行完后，其局部作用域会被 JavaScript 的&quot;垃圾回收机制（GC）&ldquo;销毁（变量也会被回收）。</p>
+<p>但闭包中，因为 <code>inner</code> 函数&quot;引用&quot;了 <code>num</code>，且 <code>inner</code> 被带出了 <code>outer</code> 作用域（存在于全局），GC 会认为 <code>num</code> 仍有用，因此<strong>保留外层函数的作用域</strong>——这就是闭包能&quot;记住&quot;外层变量的本质。</p>
+<h2 id="4-闭包的判断标准">
+<a class="header-anchor" href="#4-%e9%97%ad%e5%8c%85%e7%9a%84%e5%88%a4%e6%96%ad%e6%a0%87%e5%87%86"></a>
+4. 闭包的判断标准
+</h2><h3 id="41-关键判断原则">
+<a class="header-anchor" href="#41-%e5%85%b3%e9%94%ae%e5%88%a4%e6%96%ad%e5%8e%9f%e5%88%99"></a>
+4.1 关键判断原则
+</h3><p>闭包的核心不是&quot;内部函数是否被返回&rdquo;，而是：</p>
+<p><strong>&ldquo;内部函数保留了对外部函数作用域的引用，且该内部函数能在外部函数作用域之外被调用&rdquo;</strong></p>
+<p>判断是否形成闭包，关键看**&ldquo;内部函数是否能在外部函数作用域之外被调用&rdquo;**。</p>
+<h3 id="42-情况分析">
+<a class="header-anchor" href="#42-%e6%83%85%e5%86%b5%e5%88%86%e6%9e%90"></a>
+4.2 情况分析
+</h3><h4 id="421-情况1内部函数仅在外部函数内部调用--不算闭包">
+<a class="header-anchor" href="#421-%e6%83%85%e5%86%b51%e5%86%85%e9%83%a8%e5%87%bd%e6%95%b0%e4%bb%85%e5%9c%a8%e5%a4%96%e9%83%a8%e5%87%bd%e6%95%b0%e5%86%85%e9%83%a8%e8%b0%83%e7%94%a8--%e4%b8%8d%e7%ae%97%e9%97%ad%e5%8c%85"></a>
+4.2.1 情况1：内部函数仅在外部函数内部调用 → 不算闭包
+</h4><p>如果内部函数既没被返回，也没被赋值给外部函数外的变量/对象，仅在外部函数内部执行，那么它本质只是&quot;普通的嵌套函数&quot;，不算闭包。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">outer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 内部函数 inner 仅在 outer 内部调用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">function</span> <span class="nx">inner</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="c1">// 访问外层变量，但仅在 outer 内部执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">inner</span><span class="p">();</span> <span class="c1">// 只在 outer 内部调用，未&#34;带出&#34;外部
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">outer</span><span class="p">();</span> <span class="c1">// 执行后，outer 的作用域正常销毁（num 随之消失）
+</span></span></span></code></pre></div><p>此时 <code>inner</code> 虽然访问了 <code>num</code>，但它的调用完全局限在 <code>outer</code> 内部，没有脱离 <code>outer</code> 的作用域 → <strong>不形成闭包</strong>。</p>
+<h4 id="422-情况2内部函数被间接带出外部--算闭包">
+<a class="header-anchor" href="#422-%e6%83%85%e5%86%b52%e5%86%85%e9%83%a8%e5%87%bd%e6%95%b0%e8%a2%ab%e9%97%b4%e6%8e%a5%e5%b8%a6%e5%87%ba%e5%a4%96%e9%83%a8--%e7%ae%97%e9%97%ad%e5%8c%85"></a>
+4.2.2 情况2：内部函数被&quot;间接带出&quot;外部 → 算闭包
+</h4><p>如果内部函数虽然没被直接返回，但被赋值给了外部函数外的变量/全局对象，那么它仍能在外部函数作用域之外被调用，此时依然会形成闭包。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">globalFunc</span><span class="p">;</span> <span class="c1">// 外部全局变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">outer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kd">function</span> <span class="nx">inner</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="c1">// 访问外层变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 关键：不直接返回 inner，而是将其赋值给外部的 globalFunc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">globalFunc</span> <span class="o">=</span> <span class="nx">inner</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 1. 先执行 outer：此时 inner 被赋值给 globalFunc（带出外部）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">outer</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 2. 执行 globalFunc（本质是执行 inner）：此时 outer 已执行完毕，但 num 仍能被访问
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">globalFunc</span><span class="p">();</span> <span class="c1">// 输出 10 → 形成闭包
+</span></span></span></code></pre></div><p>这里 <code>inner</code> 没被直接返回，但通过赋值给外部的 <code>globalFunc</code>，成功&quot;脱离&quot;了 <code>outer</code> 的作用域 → <strong>形成闭包</strong>。</p>
+<h2 id="5-闭包经典案例循环中的-settimeout">
+<a class="header-anchor" href="#5-%e9%97%ad%e5%8c%85%e7%bb%8f%e5%85%b8%e6%a1%88%e4%be%8b%e5%be%aa%e7%8e%af%e4%b8%ad%e7%9a%84-settimeout"></a>
+5. 闭包经典案例：循环中的 setTimeout
+</h2><h3 id="51-问题场景">
+<a class="header-anchor" href="#51-%e9%97%ae%e9%a2%98%e5%9c%ba%e6%99%af"></a>
+5.1 问题场景
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="nx">timer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 预期输出：1, 2, 3, 4, 5
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 实际输出：6, 6, 6, 6, 6
+</span></span></span></code></pre></div><h3 id="52-问题分析">
+<a class="header-anchor" href="#52-%e9%97%ae%e9%a2%98%e5%88%86%e6%9e%90"></a>
+5.2 问题分析
+</h3><p>由于 <code>var</code> 声明的 <code>i</code> 是<strong>函数作用域</strong>，并且 <code>setTimeout</code> 的回调是<strong>异步执行</strong>的：</p>
+<ol>
+<li>循环瞬间完成，<code>i</code> 变成 6</li>
+<li>1秒后，所有 <code>setTimeout</code> 回调开始执行</li>
+<li>但此时 <code>i</code> 已经是 6，所以输出一堆 6</li>
+</ol>
+<h3 id="53-闭包解决方案">
+<a class="header-anchor" href="#53-%e9%97%ad%e5%8c%85%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88"></a>
+5.3 闭包解决方案
+</h3><h4 id="531-使用立即执行函数iife创建闭包">
+<a class="header-anchor" href="#531-%e4%bd%bf%e7%94%a8%e7%ab%8b%e5%8d%b3%e6%89%a7%e8%a1%8c%e5%87%bd%e6%95%b0iife%e5%88%9b%e5%bb%ba%e9%97%ad%e5%8c%85"></a>
+5.3.1 使用立即执行函数（IIFE）创建闭包
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// j 是当前循环中 i 的副本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="nx">timer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">j</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nx">j</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})(</span><span class="nx">i</span><span class="p">);</span> <span class="c1">// 立即执行，传入当前的 i
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出结果：1, 2, 3, 4, 5
+</span></span></span></code></pre></div><p><strong>原理分析</strong>：</p>
+<ul>
+<li>每次循环都调用一个立即执行函数，<code>j</code> 是形参，保存了当前 <code>i</code> 的值</li>
+<li><code>setTimeout</code> 回调引用的是 <code>j</code>，而每个 <code>j</code> 都在不同的闭包中，互不干扰</li>
+</ul>
+<h4 id="532-补充讲解">
+<a class="header-anchor" href="#532-%e8%a1%a5%e5%85%85%e8%ae%b2%e8%a7%a3"></a>
+5.3.2 补充讲解
+</h4><p>一、理解 <code>(function(j) { ... })(i)</code></p>
+<p>这个可以拆开来看</p>
+<p><strong>1. <code>(function(j) { ... })</code></strong></p>
+<p>这是一个<strong>匿名函数</strong>，它被括号 <code>()</code> 包裹起来。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">function(j) {
+</span></span><span class="line"><span class="cl">  setTimeout(function timer() {
+</span></span><span class="line"><span class="cl">    console.log(j)
+</span></span><span class="line"><span class="cl">  }, j * 1000)
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>这只是一个函数定义，<strong>不会立即执行</strong>。就像你写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">function sayHello() { console.log(&#34;Hello&#34;) }
+</span></span></code></pre></div><p>它只是定义，没调用。</p>
+<p>但加上括号 <code>(  )</code> 后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(function(j) { ... })
+</span></span></code></pre></div><p>这只是为了让 JavaScript 知道：“这是一个函数表达式，不是函数声明”，为下一步调用做准备。</p>
+<p><strong>2. <code>(function(j) { ... })(i)</code> —— 立即调用！</strong></p>
+<p>后面的 <code>(i)</code> 是在<strong>调用</strong>这个函数，并传入当前的 <code>i</code> 值。</p>
+<p>所以：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(function(j) { ... })(i)
+</span></span></code></pre></div><p>等价于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">tempFunction</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">setTimeout</span><span class="p">(</span><span class="n">function</span> <span class="n">timer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span> <span class="n">j</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">tempFunction</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="o">//</span> <span class="err">立即执行，传入</span> <span class="n">i</span>
+</span></span></code></pre></div><p>这种写法叫做 <strong>IIFE（Immediately Invoked Function Expression）</strong>，中文叫：<strong>立即调用函数表达式</strong>。</p>
+<p>二、如何形成的闭包？</p>
+<p>代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="nx">timer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">j</span><span class="p">)</span>  <span class="c1">// &lt;--- 这里引用了 j
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">},</span> <span class="nx">j</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})(</span><span class="nx">i</span><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li>外层的 <code>function(j)</code> 被立即执行，<code>j</code> 接收了当前 <code>i</code> 的值（比如第一次是 <code>1</code>）。</li>
+<li>然后它创建了一个 <code>setTimeout</code>，延迟执行一个函数 <code>timer</code>。</li>
+<li><code>timer</code> 函数中引用了变量 <code>j</code>。</li>
+<li>当 <code>timer</code> 几秒后执行时，外层的 <code>function(j)</code> 早就执行完了，但 <code>timer</code> 依然能访问到 <code>j</code>。</li>
+</ul>
+<p>这就是闭包的本质：<strong>内部函数（timer）捕获了外部函数（function(j)）的变量（j）</strong>，即使外部函数已经执行完毕。</p>
+<h3 id="54-使用-let">
+<a class="header-anchor" href="#54-%e4%bd%bf%e7%94%a8-let"></a>
+5.4 使用 <code>let</code>
+</h3><p>除了使用闭包还有一种更简单的方法，那就是使用 <code>let</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="nx">timer</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出结果：1, 2, 3, 4, 5
+</span></span></span></code></pre></div><p>原理：<code>let</code> 是<strong>块级作用域</strong>，每次循环都会创建一个新的 <code>i</code>，每个 <code>setTimeout</code> 回调都绑定到对应轮次的 <code>i</code>，本质上也形成了闭包。</p>
+<h4 id="541补充讲解">
+<a class="header-anchor" href="#541%e8%a1%a5%e5%85%85%e8%ae%b2%e8%a7%a3"></a>
+5.4.1补充讲解：
+</h4><p>这个使用let形成块级作用域是如何解决的？</p>
+<p>原因：<code>let</code> 在 <code>for</code> 循环中<strong>每次迭代都会创建一个新的块级作用域变量</strong></p>
+<p><strong>1.普通的 <code>let</code> 块级作用域（基础）</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">// 报错：x is not defined
+</span></span></span></code></pre></div><p>这说明 <code>let</code> 是块级作用域，出了 <code>{}</code> 就访问不到。</p>
+<p><strong>2.但在 <code>for</code> 循环中，<code>let</code> 的行为更“聪明”</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">),</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>JavaScript 引擎在背后实际上是这样处理的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// 第1次循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">i1</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i1</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 第2次循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">i2</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i2</span><span class="p">),</span> <span class="mi">2000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 第3次循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">i3</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i3</span><span class="p">),</span> <span class="mi">3000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ...
+</span></span></span></code></pre></div><blockquote>
+<p>每次循环，<code>let i</code> 都创建了一个<strong>新的变量实例</strong>，而不是复用同一个 <code>i</code>。</p></blockquote>
+<p><strong>3.为什么这能解决 <code>setTimeout</code> 的问题？</strong></p>
+<ul>
+<li><code>setTimeout</code> 的回调函数引用的是<strong>当前轮次的 <code>i</code></strong>。</li>
+<li>因为每次循环的 <code>i</code> 都是不同的变量（在不同的词法环境中），所以每个回调都绑定到自己的 <code>i</code>。</li>
+<li>即使循环结束，这些 <code>i</code> 仍然被各自的回调函数“捕获”——这其实就是<strong>闭包</strong>！</li>
+</ul>
+<p>所以：<strong><code>let</code> 在 <code>for</code> 循环中自动形成了闭包</strong>。</p>
+<h2 id="6var的函数作用域和let的块级作用域">
+<a class="header-anchor" href="#6var%e7%9a%84%e5%87%bd%e6%95%b0%e4%bd%9c%e7%94%a8%e5%9f%9f%e5%92%8clet%e7%9a%84%e5%9d%97%e7%ba%a7%e4%bd%9c%e7%94%a8%e5%9f%9f"></a>
+6.var的函数作用域和let的块级作用域
+</h2><h3 id="61-函数作用域-vs-块级作用域">
+<a class="header-anchor" href="#61-%e5%87%bd%e6%95%b0%e4%bd%9c%e7%94%a8%e5%9f%9f-vs-%e5%9d%97%e7%ba%a7%e4%bd%9c%e7%94%a8%e5%9f%9f"></a>
+6.1 函数作用域 vs 块级作用域
+</h3><h4 id="611-什么是函数作用域var">
+<a class="header-anchor" href="#611-%e4%bb%80%e4%b9%88%e6%98%af%e5%87%bd%e6%95%b0%e4%bd%9c%e7%94%a8%e5%9f%9fvar"></a>
+6.1.1 什么是函数作用域（var）
+</h4><p>使用 <code>var</code> 声明的变量：</p>
+<ul>
+<li>只在<strong>函数内部</strong>有作用域</li>
+<li>在函数内的任何地方（包括 <code>if</code>、<code>for</code>、<code>while</code> 等块中）声明，都会被<strong>提升到整个函数的顶部</strong></li>
+<li>在函数外不可访问</li>
+</ul>
+<h4 id="612-什么是块级作用域letconst">
+<a class="header-anchor" href="#612-%e4%bb%80%e4%b9%88%e6%98%af%e5%9d%97%e7%ba%a7%e4%bd%9c%e7%94%a8%e5%9f%9fletconst"></a>
+6.1.2 什么是块级作用域（let/const）
+</h4><p>在 JavaScript 中，<strong>&ldquo;块&rdquo;</strong> 是指用大括号 <code>{}</code> 包裹的一段代码，比如：</p>
+<ul>
+<li><code>if</code> 语句</li>
+<li><code>for</code> 循环</li>
+<li><code>while</code> 循环</li>
+<li>普通的 <code>{}</code> 代码块</li>
+</ul>
+<p>使用 <code>let/const</code> 声明的变量： <strong>只能在声明它的那个 <code>{}</code> 块内访问，出了这个块就&quot;消失&quot;了。</strong></p>
+<h3 id="62-作用域对比案例">
+<a class="header-anchor" href="#62-%e4%bd%9c%e7%94%a8%e5%9f%9f%e5%af%b9%e6%af%94%e6%a1%88%e4%be%8b"></a>
+6.2 作用域对比案例
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">scopeTest</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;函数开始&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">varInBlock</span> <span class="o">=</span> <span class="s2">&#34;var在块中&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">letInBlock</span> <span class="o">=</span> <span class="s2">&#34;let在块中&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">constInBlock</span> <span class="o">=</span> <span class="s2">&#34;const在块中&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">varInBlock</span><span class="p">);</span>   <span class="c1">// &#34;var在块中&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">letInBlock</span><span class="p">);</span>   <span class="c1">// &#34;let在块中&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">constInBlock</span><span class="p">);</span> <span class="c1">// &#34;const在块中&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">varInBlock</span><span class="p">);</span>   <span class="c1">// &#34;var在块中&#34; (var 没有块级作用域)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// console.log(letInBlock);   // ReferenceError
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// console.log(constInBlock); // ReferenceError
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="c1">// switch 语句中的块级作用域
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">switch</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">caseVar</span> <span class="o">=</span> <span class="s2">&#34;case变量&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// case 2:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//   let caseVar = &#34;另一个case变量&#34;; // 重复声明
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//   break;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="63-为什么-var-会导致-settimeout-问题">
+<a class="header-anchor" href="#63-%e4%b8%ba%e4%bb%80%e4%b9%88-var-%e4%bc%9a%e5%af%bc%e8%87%b4-settimeout-%e9%97%ae%e9%a2%98"></a>
+6.3 为什么 var 会导致 setTimeout 问题？
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// var 的函数作用域特性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// var i 在整个函数作用域中只有一个
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 等价于：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// var i;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// for (i = 0; i &lt; 3; i++) { ... }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> <span class="c1">// 3 (在循环外仍可访问)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// let 的块级作用域特性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 每次循环都创建一个新的 j
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// console.log(j); // ReferenceError (块外无法访问)
+</span></span></span></code></pre></div><h2 id="7闭包是否会造成内存泄漏">
+<a class="header-anchor" href="#7%e9%97%ad%e5%8c%85%e6%98%af%e5%90%a6%e4%bc%9a%e9%80%a0%e6%88%90%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f"></a>
+7.闭包是否会造成内存泄漏？
+</h2><p>回答：闭包本身不一定会造成内存泄漏，但在某些情况下确实可能导致内存泄漏问题。</p>
+<h3 id="71-闭包的内存机制">
+<a class="header-anchor" href="#71-%e9%97%ad%e5%8c%85%e7%9a%84%e5%86%85%e5%ad%98%e6%9c%ba%e5%88%b6"></a>
+7.1 <strong>闭包的内存机制</strong>
+</h3><p>闭包会保持对外部作用域变量的引用，这意味着这些变量不会被垃圾回收器回收，即使外部函数已经执行完毕。这是闭包的正常工作机制，不算是内存泄漏。</p>
+<h3 id="72-导致内存泄漏情况">
+<a class="header-anchor" href="#72-%e5%af%bc%e8%87%b4%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%e6%83%85%e5%86%b5"></a>
+7.2 导致内存泄漏情况
+</h3><ol>
+<li>
+<p>持有本该被销毁的函数，造成其关联的词法环境无法销毁。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">createXXX</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">big</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">7000000</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span> <span class="c1">// 大型数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">s1</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">big</span><span class="p">;</span> <span class="c1">// s1 引用了 big
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">s1</span><span class="p">;</span> <span class="c1">// 返回了 s1 函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">xxx</span> <span class="o">=</span> <span class="nx">createXXX</span><span class="p">();</span> <span class="c1">// xxx 持有 s1 的引用
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 即使 createXXX 执行完毕，big 也无法被回收，因为 s1 还在引用它
+</span></span></span></code></pre></div><p><strong>问题分析：</strong></p>
+<ul>
+<li><code>s1</code> 函数形成闭包，引用了外部的 <code>big</code> 变量</li>
+<li>外部代码持有 <code>s1</code> 的引用（通过 <code>xxx</code>）</li>
+<li>导致包含 <code>big</code> 的整个词法环境无法被销毁</li>
+<li><code>big</code> 数组（约28MB内存）一直占用内存</li>
+</ul>
+</li>
+<li>
+<p>当有多个函数共享此法环境时，可能导致词法环境膨胀，从而发生无法访问但无法销毁的数据。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">createXXX</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">big</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">7000000</span><span class="p">).</span><span class="nx">fill</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>   <span class="c1">// 大数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">small</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">;</span>                          <span class="c1">// 小数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">s1</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">big</span><span class="p">;</span>    <span class="c1">// s1 引用 big
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">s2</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">small</span><span class="p">;</span>  <span class="c1">// s2 引用 small
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="nx">s2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">s2</span><span class="p">;</span> <span class="c1">// 只返回 s2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p><strong>问题分析：</strong></p>
+<ul>
+<li><code>s1</code> 和 <code>s2</code> 都在同一个词法环境中定义</li>
+<li>它们共享同一个词法环境，该环境包含 <code>big</code> 和 <code>small</code></li>
+<li>即使只返回 <code>s2</code>，但由于 <code>s1</code> 的存在，整个词法环境必须保持</li>
+<li>导致 <code>big</code> 虽然无法通过返回的函数访问，但仍然无法被回收</li>
+</ul>
+</li>
+</ol>
+<h3 id="73-内存泄漏的判断原则">
+<a class="header-anchor" href="#73-%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%e7%9a%84%e5%88%a4%e6%96%ad%e5%8e%9f%e5%88%99"></a>
+7.3 内存泄漏的判断原则
+</h3><h4 id="不构成内存泄漏的情况">
+<a class="header-anchor" href="#%e4%b8%8d%e6%9e%84%e6%88%90%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%e7%9a%84%e6%83%85%e5%86%b5"></a>
+不构成内存泄漏的情况：
+</h4><ul>
+<li><strong>小数据量</strong>：基本数据类型、短字符串、小对象</li>
+<li><strong>预期行为</strong>：闭包正常保持对外部变量的引用</li>
+<li><strong>可控影响</strong>：即使累积也不会显著影响系统性能</li>
+</ul>
+<h4 id="构成内存泄漏的情况">
+<a class="header-anchor" href="#%e6%9e%84%e6%88%90%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%e7%9a%84%e6%83%85%e5%86%b5"></a>
+构成内存泄漏的情况：
+</h4><ul>
+<li><strong>大数据量</strong>：大数组、大对象、多媒体数据</li>
+<li><strong>持续增长</strong>：随时间推移内存占用不断增加</li>
+<li><strong>无法释放</strong>：应该被回收但无法回收的内存</li>
+<li><strong>影响性能</strong>：导致页面卡顿、崩溃等问题</li>
+</ul>
+<h2 id="8-一句话总结">
+<a class="header-anchor" href="#8-%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93"></a>
+8. 一句话总结
+</h2><p><strong>闭包是&quot;内层函数携带外层变量引用&quot;的特殊函数，它打破了&quot;外层不能访问内层变量&quot;的限制，可用于实现私有变量、缓存数据，但需注意内存泄漏风险。</strong></p>
+<h2 id="9-小结">
+<a class="header-anchor" href="#9-%e5%b0%8f%e7%bb%93"></a>
+9. 小结
+</h2><p>本文深入探讨了 JavaScript 闭包的核心概念：</p>
+<ol>
+<li><strong>闭包定义</strong>：内部函数访问外部函数变量，且能在外部作用域调用</li>
+<li><strong>形成条件</strong>：嵌套函数 + 访问外部变量 + 外部引用</li>
+<li><strong>经典应用</strong>：解决循环中的异步问题（setTimeout）</li>
+<li><strong>作用域区别</strong>：var（函数作用域）vs let/const（块级作用域）</li>
+<li><strong>注意事项</strong>：避免内存泄漏</li>
+</ol>
+</div>
+    <footer class="article-footer"><a
+          data-aos="zoom-in"
+          href="/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%89/#comments"
+          class="article-comment-link"
+        >
+          <span
+            class="post-comments-count valine-comment-count"
+            data-xid="http//localhost1313/post/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%89/"
+            itemprop="commentCount"
+          ></span>
+          留言
+        </a><ul class="article-tag-list" itemprop="keywords"></ul>
+</footer>
+  </div><nav
+    id="article-nav"
+    data-aos="fade-up"
+  ><div class="article-nav-link-wrap article-nav-link-left"><img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt="JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解"
+              class="lazyload"
+            /><a href="/post/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BA%8C/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">JavaScript基础知识点（二）：null、undefined、比较操作符与this讲解</h3>
+      </div></nav></article><section id="comments" data-aos="fade-up">
+<div class="comment-header"><h2 class="comment-title">说些什么吧！</h2>
+  <div class="comment-selector">
+    <div class="comment-selector-wrap"><div class="selector-item" data-selector="valine">
+          <span>valine</span>
+        </div></div>
+  </div>
+</div>
+
+<div class="comment-content"><div class="comment valine-comment" data-aos="fade-up"
+     >
+    </div></div>
+</section></section>
+        </div><footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info"><div>
+      <span class="icon-copyright"></span>2024-2025<span class="footer-info-sep rotate"></span>
+      Beats_Gu
+    </div><div>
+        <span class="icon-brush"
+          >&nbsp;49.2k</span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;01:42</span>
+      </div><div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div></div>
+</footer>
+<div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div><div id="mask" class="hide"></div>
+      </div><nav id="mobile-nav">
+  <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-前言">1. 前言</a></li>
+    <li><a href="#2-什么是闭包">2. 什么是闭包</a>
+      <ul>
+        <li><a href="#21-闭包的定义">2.1 闭包的定义</a></li>
+        <li><a href="#22-闭包的形成条件">2.2 闭包的形成条件</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-闭包的基本形成机制">3. 闭包的基本形成机制</a>
+      <ul>
+        <li><a href="#31-经典闭包示例">3.1 经典闭包示例</a></li>
+        <li><a href="#32-关键疑问为什么-outer-执行完num-没被销毁">3.2 关键疑问：为什么 <code>outer</code> 执行完，<code>num</code> 没被销毁？</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-闭包的判断标准">4. 闭包的判断标准</a>
+      <ul>
+        <li><a href="#41-关键判断原则">4.1 关键判断原则</a></li>
+        <li><a href="#42-情况分析">4.2 情况分析</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-闭包经典案例循环中的-settimeout">5. 闭包经典案例：循环中的 setTimeout</a>
+      <ul>
+        <li><a href="#51-问题场景">5.1 问题场景</a></li>
+        <li><a href="#52-问题分析">5.2 问题分析</a></li>
+        <li><a href="#53-闭包解决方案">5.3 闭包解决方案</a></li>
+        <li><a href="#54-使用-let">5.4 使用 <code>let</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#6var的函数作用域和let的块级作用域">6.var的函数作用域和let的块级作用域</a>
+      <ul>
+        <li><a href="#61-函数作用域-vs-块级作用域">6.1 函数作用域 vs 块级作用域</a></li>
+        <li><a href="#62-作用域对比案例">6.2 作用域对比案例</a></li>
+        <li><a href="#63-为什么-var-会导致-settimeout-问题">6.3 为什么 var 会导致 setTimeout 问题？</a></li>
+      </ul>
+    </li>
+    <li><a href="#7闭包是否会造成内存泄漏">7.闭包是否会造成内存泄漏？</a>
+      <ul>
+        <li><a href="#71-闭包的内存机制">7.1 <strong>闭包的内存机制</strong></a></li>
+        <li><a href="#72-导致内存泄漏情况">7.2 导致内存泄漏情况</a></li>
+        <li><a href="#73-内存泄漏的判断原则">7.3 内存泄漏的判断原则</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-一句话总结">8. 一句话总结</a></li>
+    <li><a href="#9-小结">9. 小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div></div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.png"
+    data-sizes="auto"
+    alt="Beats_Gu"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">Beats_Gu</div>
+  <div class="sidebar-description">少年须知凌云志...</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div><div class="sidebar-state-number">7</div>
+  </div>
+  <a class="sidebar-state-category" href="/categories/" aria-label="sidebar-state-category-link">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </a>
+  <a class="sidebar-state-tag" href="/tags/" aria-label="sidebar-state-tag-link">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </a>
+</div>
+<div class="sidebar-social"></div>
+<div class="sidebar-menu"><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">首页</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">归档</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">关于</div>
+    </div><div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>&#xf6ad;</div>
+      <div class="sidebar-menu-link">友链</div>
+    </div></div>
+</div></div><div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div></nav>
+</div><div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div><script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script><script src="/js/main.js" ></script><script src="/js/aos.js" ></script><script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script><script src="/js/pjax_main.js" data-pjax></script><script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "PBK297AOMW",
+        apiKey: "d5d1fc0397aa43d7f922d5ca2330a187",
+        indexName: "",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": '搜索.....',
+          "hits_empty": '未发现与 「${query}」相关内容',
+          "hits_stats": '找到${hits}条结果（用时 ${time} ms）'
+        }
+      }
+    };
+  </script><script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    deferintegrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"></script><script
+    src="https://npm.webcache.cn/@reimujs/instantsearch.js@4.57.0-beta.1/dist/instantsearch.production.min.js"
+    deferintegrity="sha384-aagKMe8nkqaP2DYQc8kkYOL5l&#43;M5Q2WH/Uhr4teOh0Ybp0RZj0kUSDm45qPikMjK" crossorigin="anonymous"></script><script src="/js/algolia_search.js" ></script><script>
+  function initLive2d() {
+    live2d.init('https:\/\/fastly.jsdelivr.net\/gh\/D-Sketon\/plugin-live2d\/', {themeTipsPath: ""});
+  }
+</script><script
+    src="https://fastly.jsdelivr.net/gh/D-Sketon/plugin-live2d/js/live2d-autoload.js"
+    asynconload="initLive2d()"></script><script
+    src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"
+    integrity="sha384-aD7FsuQkS1ohgFKY41fJfeA&#43;Wd/QRNnrOd9Bs58K3FzKdJJv8yPnYU8Tnp5z1agS" crossorigin="anonymous"></script><script data-pjax>
+    window.quicklink?.listen({
+      timeout:  3000 ,
+      priority:  true ,
+      ignores: JSON.parse("[]")
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div><script data-pjax>
+        window.REIMU_POST = {
+          author: "Beats_Gu",
+          title: "JavaScript基础知识点（三）：闭包解析与作用域讲解",
+          url: "http:\/\/localhost:1313\/post\/javascript%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%89\/",
+          description: " JavaScript基础知识点（三）：闭包解析与作用域讲解 1. 前言 闭包是 JavaScript 中最重要也是最容易混淆的概念之一。它不是某种特殊的语法，而是作用域规则的自然结果。本文将从基础概念开始，深入探讨闭包的形成机制、经典应用场景，以及相关的作用域知识。\n",
+          cover: "http:\/\/localhost:1313\/images\/banner.webp",
+        };
+      </script><script src="/js/insert_highlight.js" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")}).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script><script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+  var commentConfigKeys = ['valine', 'waline', 'twikoo', 'gitalk', 'giscus'];
+  var commentConfig = {
+    valine: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.valine-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/valine@1.5.1\/dist\/Valine.min.js',
+          !'webcache|valine@1.5.1\/dist\/Valine.min.js'.startsWith('local') ? 'sha384-3ma91AExDeMAZ1rjTjaP8V2A2obQE\u002bs5ltKRwYlwdpArz9xVbp0tF3b0VV2ACNPn' : undefined
+        );
+        script.onload = () => {
+          const GUEST_INFO = ['nick', 'mail', 'link'];
+          const guest_info = 'nick,mail,link'.split(',').filter((item) => {
+            return GUEST_INFO.indexOf(item) > -1
+          });
+          const recordIP = JSON.parse('true');
+          const highlight = JSON.parse('true');
+          const visitor = JSON.parse('false');
+          const serverURLs = undefined;
+
+          new Valine({
+            el: '.valine-comment',
+            appId: "pzdnUsDUISWmBffXX6co6q3R-gzGzoHsz",
+            appKey: "GKPZSi7oEGO1SoAE7EzNzfeV",
+            placeholder: "快来评论吧",
+            pageSize: '10',
+            avatar: 'mp',
+            lang: document.documentElement.lang || 'en',
+            recordIP: recordIP,
+            highlight: highlight,
+            visitor: visitor,
+            requiredFields: guest_info,
+            path: window.location.pathname,
+            serverURLs,
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    waline: {
+      enable: false,
+      load: async () => {
+        const container = document.querySelector('.waline-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        let walineInit;
+        const walineCdn = 'https:\/\/npm.webcache.cn\/@waline\/client@2.15.8\/dist\/waline.mjs';
+        
+        if ('webcache|@waline\/client@2.15.8\/dist\/waline.mjs'.startsWith('local')) {
+          
+          const module = await safeImport(walineCdn);
+          walineInit = module.init;
+        } else {
+          
+          const module = await safeImport(
+            walineCdn, 
+            'sha384-9sbqJjrfGjbkI6\/PI4nU\/MvBfEmkkPC4YK9I4zBeMIf1CVCZdCMH\/KinBEAZII\/5'
+          );
+          walineInit = module.init;
+        }
+        
+        window.walineInstance = walineInit({
+          el: '.waline-comment',
+          serverURL: '',
+          lang: document.documentElement.lang || 'en',
+          locale: JSON.parse("{}"),
+          emoji: JSON.parse("[\"https://unpkg.com/@waline/emojis@1.2.0/weibo\",\"https://unpkg.com/@waline/emojis@1.2.0/alus\",\"https://unpkg.com/@waline/emojis@1.2.0/bilibili\",\"https://unpkg.com/@waline/emojis@1.2.0/qq\",\"https://unpkg.com/@waline/emojis@1.2.0/tieba\",\"https://unpkg.com/@waline/emojis@1.2.0/tw-emoji\"]"),
+          meta: JSON.parse("[\"nick\",\"mail\",\"link\"]"),
+          requiredMeta: JSON.parse("[\"nick\",\"mail\"]"),
+          wordLimit:  0 ,
+          comment: true,
+          pageSize:  10 ,
+          dark: 'html[data-theme="dark"]',
+          pageview:  true ,
+        });
+      }
+    },
+    twikoo: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.twikoo-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/twikoo@1.6.44\/dist\/twikoo.all.min.js',
+          !'webcache|twikoo@1.6.44\/dist\/twikoo.all.min.js'.startsWith('local') ? 'sha384-kwWLC0HjeZZnVPqCJ1AncI8tsk\u002bkQqF9TbAmCclcc9Z0hGkfgHRzeQZxmdmZhE0K' : undefined
+        );
+        script.onload = () => {
+          twikoo.init({
+            envId: '',
+            el: '.twikoo-comment',
+            region: '',
+            lang: document.documentElement.lang || 'en',
+          });
+          twikoo.getCommentsCount({
+            envId: '',
+            region: '',
+            urls: [
+              'http\/\/localhost1313\/post\/javascript%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e7%82%b9%e4%b8%89\/'
+            ],
+            includeReply: false
+          }).then((res) => {
+            document.querySelector('.twikoo-comment-count').innerText = res[0].count;
+          }).catch((err) => {
+            console.error(err);
+          });
+        };
+        document.head.appendChild(script);
+      }
+    },
+    gitalk: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https:\/\/npm.webcache.cn\/gitalk@1.8.0\/dist\/gitalk.min.js',
+          !'webcache|gitalk@1.8.0\/dist\/gitalk.min.js'.startsWith('local') ? 'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU\/lcEH5O8eVbSDhbPwsiVUTp\/aGX\/z\/5EuMA' : undefined
+        );
+        script.onload = () => {
+          if ( false ) {
+            
+            const md5Script = loadScript(
+              'https:\/\/npm.webcache.cn\/blueimp-md5@2.19.0\/js\/md5.min.js',
+              !'webcache|blueimp-md5@2.19.0\/js\/md5.min.js'.startsWith('local') ? 'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr\/gZlbkHkL6vTthxH' : undefined
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            
+            initGitalk();
+          }
+        };
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          let gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: JSON.parse("null"),
+            id: location.pathname,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          });
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    giscus: {
+      enable: false,
+      load: () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+
+        const docLang = document.documentElement.lang || 'en';
+        const langBase = docLang.split('-')[0];
+        const supportedLangs = ['ar', 'be', 'bg', 'ca', 'cs', 'da', 'de', 'en', 
+        'eo', 'es', 'eu', 'fa', 'fr', 'gr', 'hbs', 'he', 'hu', 'id', 'it', 'ja', 
+        'kh', 'ko', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tr', 'uk', 'uz', 'vi', 'zh-CN', 'zh-HK', 'zh-TW'];
+        const giscusLang = supportedLangs.includes(docLang) ? docLang : supportedLangs.includes(langBase) ? langBase : 'en';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', '');
+        giscusScript.setAttribute('data-repo-id', '');
+        giscusScript.setAttribute('data-category', '');
+        giscusScript.setAttribute('data-category-id', '');
+        giscusScript.setAttribute('data-mapping', '0');
+        giscusScript.setAttribute('data-strict', '0');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? 'dark' : 'light');
+        giscusScript.setAttribute('data-lang', giscusLang);
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        document.body.addEventListener('light-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'light' } } }, 'https://giscus.app');
+        });
+        document.body.addEventListener('dark-theme-set', () => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: 'dark' } } }, 'https://giscus.app');
+        });
+      }
+    }
+  };
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      
+      const commentType = item.getAttribute('data-selector');
+
+      
+      hideAllComments();
+
+      
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          
+          changeActiveCommentItems(item);
+        });
+      }
+
+      
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script></div>
+</div><script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    asyncintegrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"></script><script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script><script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script></body>
+</html>
